@@ -6,6 +6,13 @@ Ethereum 기반 플랫폼 입니다.
   <img width="80%" height="300" src="./Resources/total-scenario.png">
 </p>  
 
+# Directory
+- **Client**    : reactjs, css 코드 저장
+- **Ethereum**  : solidity 코드 저장
+- **Resources** : 로고, 이미지 저장
+- **Sensor**    : arduino firmware 코드 저장
+- **Server**    : nodejs 코드 저장
+
 # 구성원
 - 멘토: 조철현 (ecomxasia)
 - 팀장: 이동승 (LeeDongSeung)
@@ -16,10 +23,3 @@ Ethereum 기반 플랫폼 입니다.
 <p align="center">
   <img width="100%" height="500" src="./Resources/tech-sceanario-1.png">
 </p>
-
-# Directory
-- **Client**    : reactjs, css 코드 저장
-- **Ethereum**  : solidity 코드 저장
-- **Resources** : 로고, 이미지 저장
-- **Sensor**    : arduino firmware 코드 저장
-- **Server**    : nodejs 코드 저장
