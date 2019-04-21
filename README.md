@@ -15,10 +15,10 @@ Ethereum 기반 플랫폼 입니다.
 <br>  
 
 ## 구성원
-- 멘토: 조철현 (ecomxasia)
-- 팀장: 이동승 (LeeDongSeung)
-- 팀원: 조용현 (rafaelcho)
-- 팀원: 서현규 (omnipede)
+- 멘토: 조철현 
+- 팀장: 이동승 
+- 팀원: 조용현 
+- 팀원: 서현규 
 <br>  
 
 ## 기술구조
