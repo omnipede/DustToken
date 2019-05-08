@@ -24,7 +24,7 @@ class Login extends React.Component {
         return(
         <div> 
           <Modal visible={this.props.visible} footer={null} onCancel={this.props.onCancel}>
-             <Layout>
+             <Layout style={{background: '#fff'}}>
                <Header style={{background: '#fff', padding: 0}} align="center">
                  <h1> Log in </h1>
                </Header>
