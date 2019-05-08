@@ -11,10 +11,27 @@ const {
 /* Login modal component. */
 class Login extends React.Component {
 
+    state = {
+        visible: false
+    }
+
+    constructor(props){
+        super();
+        this.state = {
+            visible: props.visible
+        }
+    }
+
+    handleCancel = (e) => {
+        this.setState({
+            visible: false,
+        })
+    }
+
     render() {
         return(
         <div> 
-          <Modal visible="false" footer={null}>
+          <Modal visible={this.state.visible} footer={null} onCancel={this.handleCancel}>
              <Layout>
                <Header style={{background: '#fff', padding: 0}} align="center">
                  <h1> Log in </h1>

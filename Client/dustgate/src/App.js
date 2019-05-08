@@ -79,7 +79,7 @@ class App extends React.Component {
           </Menu>
         </Sider>
 
-        <Login />
+        <Login visible={true}/>
 
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }} />
