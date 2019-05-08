@@ -1,7 +1,8 @@
 import React from 'react';
 import {
-  Layout, Menu, Icon, Modal, Form, Input, Button
+  Layout, Menu, Icon,
 } from 'antd'; 
+import Login from './Components/Login';
 import "antd/dist/antd.css";
 import './App.css';
 import logo from './logo_white.png';
@@ -78,26 +79,7 @@ class App extends React.Component {
           </Menu>
         </Sider>
 
-        <div> 
-          <Modal visible="false" footer={null}>
-             <Layout>
-               <Header style={{background: '#fff', padding: 0}} align="center">
-                 <h1> Log in </h1>
-               </Header>
-                 <Form className="login-form">
-                  <Form.Item> 
-                   <Input prefix={<Icon type="user" style={{color: 'rgba(0, 0, 0, .25)'}}/>} placeholder="User name"/>
-                  </Form.Item>
-                  <Form.Item>
-                   <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
-                  </Form.Item>
-                 </Form>
-                 <Button type="primary" htmlType="submit" className="login-form-button">
-                    Log in
-                 </Button>
-             </Layout>
-          </Modal>
-         </div>
+        <Login />
 
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }} />
