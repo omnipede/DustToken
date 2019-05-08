@@ -93,7 +93,7 @@ class App extends React.Component {
         <Login visible={this.state.visible} onCancel={this.handleCancel} /> 
 
         <Layout>
-          <Header style={{ background: '#fff', padding: '16px 16px' }} >
+          <Header style={{ background: 'rgba(0, 0, 0, 0)', padding: '16px 16px' }} >
           </Header>
           <Content style={{ margin: '16px 16px' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
