@@ -1,16 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
 import {
-  Layout, Menu, Breadcrumb, Icon, DatePicker, message
+  Layout, Menu, Icon
 } from 'antd'; 
 import "antd/dist/antd.css";
-import './index.css';
-//import './App.css';
+import './App.css';
+import logo from './logo_white.png';
 
 const {
   Header, Content, Footer, Sider,
 } = Layout;
-const SubMenu = Menu.SubMenu;
 
 class App extends React.Component {
   state = {
@@ -21,13 +19,7 @@ class App extends React.Component {
     this.setState({collapsed});
   };
 
-  handleChange = date => {
-    message.info(`Selected Date: ${date ? date.format("YYYY-MM-DD") : "None"}`);
-    this.setState({ date });
-  };
-
   render() {
-    const { date } = this.state;
     return (
       <Layout style={{ minHeight: '100vh' }}>
         
@@ -36,7 +28,21 @@ class App extends React.Component {
           collapsed={this.state.collapsed}
           onCollapse={this.onCollapse}
         >
-          <div className="logo" />
+          <div>
+          {
+            this.state.collapsed === false
+              ? (
+              <div className="logo"> 
+              <img src={logo} width="168px" height="32px" alt="Logo" />
+              </div>
+              )
+              : (
+              <div className="logo"> 
+              </div>
+              )
+          }
+          </div>
+          
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             <Menu.Item key="1">
               <Icon type="pie-chart" />
@@ -69,7 +75,7 @@ class App extends React.Component {
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
-            Ant Design ©2018 Created by Ant UED
+            3월29일 ©2019 Created by omnipede
           </Footer>
         </Layout>
       </Layout>
