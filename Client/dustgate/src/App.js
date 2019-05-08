@@ -14,7 +14,8 @@ const {
 class App extends React.Component {
   state = {
     collapsed: false, 
-    menuKey: "1"
+    menuKey: "Intro.",
+    visible: false
   };
 
   /* Menu collapse callback */
@@ -25,16 +26,26 @@ class App extends React.Component {
   /* Menu handling callback */
   onMenuClick = (e) => {
     /* Debug purpose */
+    var t_visible = false;
     console.log('click', e);
+    if (e.key === "login"){
+      t_visible = true;
+    }
     this.setState({
-      menuKey: e.key
+      menuKey: e.key,
+      visible: t_visible
     })
   };
+
+  handleCancel = (e) => {
+    this.setState({
+        visible: false,
+    })
+  }
 
   render() {
     return (
       <Layout style={{ minHeight: '100vh' }}>
-        
         <Sider
           collapsible
           collapsed={this.state.collapsed}
@@ -54,37 +65,43 @@ class App extends React.Component {
               )
           }
           </div>
-          
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" onClick = {this.onMenuClick}>
-            <Menu.Item key="1">
+
+          <Menu theme="dark" defaultSelectedKeys={['Intro.']} mode="inline" onClick = {this.onMenuClick}>
+            <Menu.Item key="Intro.">
               <Icon type="pie-chart" />
               <span> Intro. </span>
             </Menu.Item>
-            <Menu.Item key="2">
+            <Menu.Item key="login">
               <Icon type="desktop" />
               <span> login / signin </span>
             </Menu.Item>
-            <Menu.Item key="3">
+            <Menu.Item key="Device">
               <Icon type="desktop" />
               <span> Device </span>
             </Menu.Item>
-            <Menu.Item key="4">
+            <Menu.Item key="API">
               <Icon type="desktop" />
               <span> API </span>
             </Menu.Item>
-            <Menu.Item key="5">
+            <Menu.Item key="Block chain">
               <Icon type="desktop" />
               <span> Block chain </span>
             </Menu.Item>
           </Menu>
         </Sider>
 
-        <Login visible={true}/>
+        <Login visible={this.state.visible} onCancel={this.handleCancel} /> 
 
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }} />
+          <Header style={{ background: 'rgba(0,0,0,0)', padding: 0 }} />
           <Content style={{ margin: '16px 16px' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+            { this.state.menuKey === "login" 
+            
+            /*getContent() 구현 */
+            ? <div> this is page two </div>
+            : <div> this is not page two </div>
+            }
               Bill is a cat.
             </div>
           </Content>

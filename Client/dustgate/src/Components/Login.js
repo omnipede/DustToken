@@ -17,21 +17,13 @@ class Login extends React.Component {
 
     constructor(props){
         super();
-        this.state = {
-            visible: props.visible
-        }
-    }
-
-    handleCancel = (e) => {
-        this.setState({
-            visible: false,
-        })
+        console.log("Login!");
     }
 
     render() {
         return(
         <div> 
-          <Modal visible={this.state.visible} footer={null} onCancel={this.handleCancel}>
+          <Modal visible={this.props.visible} footer={null} onCancel={this.props.onCancel}>
              <Layout>
                <Header style={{background: '#fff', padding: 0}} align="center">
                  <h1> Log in </h1>
