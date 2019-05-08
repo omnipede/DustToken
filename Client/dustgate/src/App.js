@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Layout, Menu, Icon
+  Layout, Menu, Icon, Modal, Form, Input, Button
 } from 'antd'; 
 import "antd/dist/antd.css";
 import './App.css';
@@ -12,11 +12,22 @@ const {
 
 class App extends React.Component {
   state = {
-    collapsed: false
+    collapsed: false, 
+    menuKey: "1"
   };
 
+  /* Menu collapse callback */
   onCollapse = (collapsed) => {
     this.setState({collapsed});
+  };
+
+  /* Menu handling callback */
+  onMenuClick = (e) => {
+    /* Debug purpose */
+    console.log('click', e);
+    this.setState({
+      menuKey: e.key
+    })
   };
 
   render() {
@@ -43,7 +54,7 @@ class App extends React.Component {
           }
           </div>
           
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" onClick = {this.onMenuClick}>
             <Menu.Item key="1">
               <Icon type="pie-chart" />
               <span> Intro. </span>
@@ -67,6 +78,27 @@ class App extends React.Component {
           </Menu>
         </Sider>
 
+        <div> 
+          <Modal visible="false" footer={null}>
+             <Layout>
+               <Header style={{background: '#fff', padding: 0}} align="center">
+                 <h1> Log in </h1>
+               </Header>
+                 <Form className="login-form">
+                  <Form.Item> 
+                   <Input prefix={<Icon type="user" style={{color: 'rgba(0, 0, 0, .25)'}}/>} placeholder="User name"/>
+                  </Form.Item>
+                  <Form.Item>
+                   <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+                  </Form.Item>
+                 </Form>
+                 <Button type="primary" htmlType="submit" className="login-form-button">
+                    Log in
+                 </Button>
+             </Layout>
+          </Modal>
+         </div>
+
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }} />
           <Content style={{ margin: '16px 16px' }}>
@@ -79,6 +111,7 @@ class App extends React.Component {
           </Footer>
         </Layout>
       </Layout>
+
     );
   }
 }
