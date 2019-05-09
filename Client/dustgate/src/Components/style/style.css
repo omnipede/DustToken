@@ -1,9 +1,6 @@
 .login_Btn {
     float: right;
-    border-radius: 20px;
-    background-color: #363333;
-    color: white;
-    width: 18%;
-    border-color: #363333;
+    height: 32px;
+    width: 5%;
     margin: 1% 1.5% 0% 0%
 }
