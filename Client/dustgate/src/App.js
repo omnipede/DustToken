@@ -112,7 +112,7 @@ class App extends React.Component {
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
-            3월29일 ©2019 Created by omnipede
+            Copyright © Since 2019 3월29일, Inc. Created by omnipede
           </Footer>
         </Layout>
       </Layout>
