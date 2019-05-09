@@ -6,6 +6,7 @@ import Login from './Components/Login';
 import "antd/dist/antd.css";
 import './App.css';
 import logo from './logo_white.png';
+import logo_black from './logo_black.png';
 
 const {
   Header, Content, Footer, Sider,
@@ -71,7 +72,6 @@ class App extends React.Component {
               )
           }
           </div>
-
           <Menu theme="dark" defaultSelectedKeys={['Intro.']} mode="inline" onClick = {this.onMenuClick}>
             <Menu.Item key="Intro.">
               <Icon type="pie-chart" />
@@ -95,18 +95,15 @@ class App extends React.Component {
             </Menu.Item>
           </Menu>
         </Sider>
-
         <Login visible={this.state.visible} onCancel={this.handleCancel} /> 
-
         <Layout>
-          <Header style={{ background: 'rgba(0, 0, 0, 0)', padding: '16px' }} >
-            <Icon className="trigger" type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} 
-              style={{fontSize: '32px'}}/>
+          <Header style={{ background: 'rgba(0, 0, 0, 0)', padding: 0 }} >
+            <Icon className="trigger" type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} style={{fontSize: '32px'}}/>
+            <img src={logo_black}  alt="Logo" className="logo_in" />
           </Header>
           <Content style={{ margin: '16px 16px' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
             { this.state.menuKey === "login" 
-            
             /*getContent() 구현 */
             ? <div> this is page two </div>
             : <div> this is not page two </div>
