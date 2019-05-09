@@ -23,6 +23,12 @@ class App extends React.Component {
     this.setState({collapsed});
   };
 
+  toggle = () => {
+    this.setState({
+      collapsed: !this.state.collapsed
+    })
+  }
+
   /* Menu handling callback */
   onMenuClick = (e) => {
     /* Debug purpose */
@@ -47,9 +53,9 @@ class App extends React.Component {
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
+          trigger={null}
           collapsible
           collapsed={this.state.collapsed}
-          onCollapse={this.onCollapse}
         >
           <div>
           {
@@ -93,7 +99,9 @@ class App extends React.Component {
         <Login visible={this.state.visible} onCancel={this.handleCancel} /> 
 
         <Layout>
-          <Header style={{ background: 'rgba(0, 0, 0, 0)', padding: '16px 16px' }} >
+          <Header style={{ background: 'rgba(0, 0, 0, 0)', padding: '16px' }} >
+            <Icon className="trigger" type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} 
+              style={{fontSize: '32px'}}/>
           </Header>
           <Content style={{ margin: '16px 16px' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
