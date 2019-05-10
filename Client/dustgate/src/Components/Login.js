@@ -21,6 +21,7 @@ class Login extends React.Component {
     }
 
     render() {
+        const {getFieldDecorator} = this.props.form;
         return(
         <div> 
           <Modal visible={this.props.visible} footer={null} onCancel={this.props.onCancel}>
@@ -30,10 +31,18 @@ class Login extends React.Component {
                </Header>
                  <Form className="login-form">
                   <Form.Item> 
+                    {getFieldDecorator('username', {
+                      rules:[{required: true, message: 'Please input your username!'}], 
+                    })(
                     <Input prefix={<Icon type="user" style={{color: 'rgba(0, 0, 0, .25)'}}/>} placeholder="User name"/>
+                    )}
                   </Form.Item>
                   <Form.Item>
-                   <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+                    {getFieldDecorator('password', {
+                      rules:[{required: true, message: 'Please input your passoword!'}], 
+                    })(
+                    <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+                    )}
                   </Form.Item>
                  </Form>
                  <Button type="primary" htmlType="submit" className="login-form-button">
@@ -46,4 +55,5 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+const LoginForm = Form.create({name: 'login'})(Login);
+export default LoginForm;
