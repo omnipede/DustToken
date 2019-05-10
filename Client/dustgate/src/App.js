@@ -5,7 +5,6 @@ import {
 import LoginForm from './Components/Login';
 import "antd/dist/antd.css";
 import './App.css';
-import './Components/style/style.css'
 import logo from './logo_white.png';
 import logo_black from './logo_black.png';
 
