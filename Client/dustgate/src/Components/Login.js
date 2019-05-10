@@ -30,7 +30,7 @@ class Login extends React.Component {
                </Header>
                  <Form className="login-form">
                   <Form.Item> 
-                   <Input prefix={<Icon type="user" style={{color: 'rgba(0, 0, 0, .25)'}}/>} placeholder="User name"/>
+                    <Input prefix={<Icon type="user" style={{color: 'rgba(0, 0, 0, .25)'}}/>} placeholder="User name"/>
                   </Form.Item>
                   <Form.Item>
                    <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />

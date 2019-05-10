@@ -44,7 +44,11 @@ class App extends React.Component {
       visible: t_visible
     })
   };
-
+  handleLoginClick = (e) =>{
+    this.setState({
+      visible: true,
+    })
+  }
   handleCancel = (e) => {
     this.setState({
         visible: false,
@@ -78,10 +82,6 @@ class App extends React.Component {
               <Icon type="pie-chart" />
               <span> Intro. </span>
             </Menu.Item>
-            <Menu.Item key="login">
-              <Icon type="desktop" />
-              <span> login / signin </span>
-            </Menu.Item>
             <Menu.Item key="Device">
               <Icon type="desktop" />
               <span> Device </span>
@@ -101,7 +101,7 @@ class App extends React.Component {
           <Header style={{ background: 'rgba(0, 0, 0, 0)', padding: 0 }} >
             <Icon className="trigger" type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} style={{fontSize: '32px'}}/>
             <img src={logo_black}  alt="Logo" className="logo_in" />
-            <Button className="login_Btn" type="primary"> Login </Button>
+            <Button className="login_Btn" type="primary" onClick={this.handleLoginClick} > Login </Button>
           </Header>
           <Content style={{ margin: '16px 16px' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
