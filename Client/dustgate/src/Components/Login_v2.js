@@ -62,7 +62,6 @@ class LoginPage extends React.Component {
     }
 
     handleCancel = (e) => {
-        console.log('called');
         this.setState({
             visible: false
         })
@@ -70,7 +69,7 @@ class LoginPage extends React.Component {
 
     render() {
         return (
-            <div>
+            <React.Fragment>
                 <Button 
                     className="login_Btn" type="primary" onClick = {this.showModal}
                 > Log in 
@@ -80,8 +79,7 @@ class LoginPage extends React.Component {
                     visible = {this.state.visible}
                     onCancel = {this.handleCancel}
                 />
-                {console.log(this.state.visible)}
-            </div>
+            </React.Fragment>
             
         )
     }
