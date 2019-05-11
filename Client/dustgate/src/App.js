@@ -33,16 +33,12 @@ class App extends React.Component {
   /* Menu handling callback */
   onMenuClick = (e) => {
     /* Debug purpose */
-    var t_visible = false;
     console.log('click', e);
-    if (e.key === "login"){
-      t_visible = true;
-    }
     this.setState({
       menuKey: e.key,
-      visible: t_visible
     })
   };
+
   handleLoginClick = (e) =>{
     this.setState({
       visible: true,
@@ -53,7 +49,6 @@ class App extends React.Component {
         visible: false,
     })
   }
-
   render() {
     return (
       <Layout style={{ minHeight: '100vh' }}>
@@ -95,7 +90,10 @@ class App extends React.Component {
             </Menu.Item>
           </Menu>
         </Sider>
-        <LoginForm visible={this.state.visible} onCancel={this.handleCancel} /> 
+        <LoginForm 
+          visible={this.state.visible} 
+          onCancel={this.handleCancel} 
+        /> 
         <Layout>
           <Header style={{ background: 'rgba(0, 0, 0, 0)', padding: 0 }} >
             <Icon className="trigger" type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} style={{fontSize: '32px'}}/>
