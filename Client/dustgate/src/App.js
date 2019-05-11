@@ -2,10 +2,12 @@ import React from 'react';
 import {
   Layout, Menu, Icon, Button
 } from 'antd'; 
-import LoginForm from './Components/Login';
-import LoginPage from './Components/Login_v2';
+
+import LoginPage from './Components/Login';
+
 import "antd/dist/antd.css";
 import './App.css';
+
 import logo from './logo_white.png';
 import logo_black from './logo_black.png';
 
@@ -41,20 +43,6 @@ class App extends React.Component {
       menuKey: e.key,
     })
   };
-
-  /* Login Modal click. */
-  handleLoginClick = (e) =>{
-    this.setState({
-      visible: true,
-    })
-  }
-
-  /* Login Modal Cancel. */
-  handleCancel = (e) => {
-    this.setState({
-        visible: false,
-    })
-  }
 
   validateLogin = () => {
     console.log("Log in!");
@@ -106,11 +94,6 @@ class App extends React.Component {
           </Menu>
         </Sider>
 
-        <LoginForm 
-          visible={this.state.visible} 
-          onCancel={this.handleCancel} 
-          validateLogin = {this.validateLogin}
-        /> 
         <Layout>
           <Header style={{ background: 'rgba(0, 0, 0, 0)', padding: 0 }} >
             <Icon className="trigger" type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} style={{fontSize: '32px'}}/>
