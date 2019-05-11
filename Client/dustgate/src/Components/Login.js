@@ -54,7 +54,7 @@ class Login extends React.Component {
                     )}
                   </Form.Item>
                   <Form.Item>
-                    <Button type="primary" htmlType="submit" className="login-form-button">
+                    <Button type="primary" htmlType="submit" className="login-form-button" block>
                       Log in
                     </Button>
                   </Form.Item>
@@ -65,6 +65,5 @@ class Login extends React.Component {
         );
     }
 }
-
 const LoginForm = Form.create({name: 'login'})(Login);
 export default LoginForm;

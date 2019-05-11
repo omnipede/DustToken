@@ -44,11 +44,13 @@ class App extends React.Component {
       visible: true,
     })
   }
+  
   handleCancel = (e) => {
     this.setState({
         visible: false,
     })
   }
+
   render() {
     return (
       <Layout style={{ minHeight: '100vh' }}>
