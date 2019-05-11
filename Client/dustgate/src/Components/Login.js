@@ -29,6 +29,7 @@ class Login extends React.Component {
           }
         }
       })
+      this.props.form.resetFields();
     }  
 
     render() {
