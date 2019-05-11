@@ -16,7 +16,8 @@ class App extends React.Component {
   state = {
     collapsed: false, 
     menuKey: "Intro.",
-    visible: false
+    visible: false,
+    login: false
   };
 
   /* Menu collapse callback */
@@ -24,6 +25,7 @@ class App extends React.Component {
     this.setState({collapsed});
   };
 
+  /* Menu toggle callback. */
   toggle = () => {
     this.setState({
       collapsed: !this.state.collapsed
@@ -39,15 +41,25 @@ class App extends React.Component {
     })
   };
 
+  /* Login Modal click. */
   handleLoginClick = (e) =>{
     this.setState({
       visible: true,
     })
   }
-  
+
+  /* Login Modal Cancel. */
   handleCancel = (e) => {
     this.setState({
         visible: false,
+    })
+  }
+
+  validateLogin = () => {
+    console.log("Log in!");
+    this.setState({
+      login: true,
+      visible: false
     })
   }
 
@@ -92,15 +104,17 @@ class App extends React.Component {
             </Menu.Item>
           </Menu>
         </Sider>
+
         <LoginForm 
           visible={this.state.visible} 
           onCancel={this.handleCancel} 
+          validateLogin = {this.validateLogin}
         /> 
         <Layout>
           <Header style={{ background: 'rgba(0, 0, 0, 0)', padding: 0 }} >
             <Icon className="trigger" type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} style={{fontSize: '32px'}}/>
             <img src={logo_black}  alt="Logo" className="logo_in" />
-            <Button className="login_Btn" type="primary" onClick={this.handleLoginClick} > Login </Button>
+            <Button className="login_Btn" type="primary" onClick={this.handleLoginClick} > Log in </Button>
           </Header>
           <Content style={{ margin: '16px 16px' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>

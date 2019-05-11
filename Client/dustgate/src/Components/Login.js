@@ -17,7 +17,6 @@ class Login extends React.Component {
 
     constructor(props){
         super();
-        console.log("Login!");
     }
 
     handleSubmit = (e) =>{
@@ -25,6 +24,9 @@ class Login extends React.Component {
       this.props.form.validateFields((err, values) => {
         if(!err) {
           console.log('Received values of form: ', values);
+          if (values.username === 'ADMIN' && values.password === 'ADMIN'){
+            this.props.validateLogin();
+          }
         }
       })
     }  
