@@ -21,7 +21,7 @@ const LoginForm = Form.create({name: 'login'}) (
                             <Header style={{ background: '#fff', padding: 0 }} align="center">
                                 <h1> Log in </h1>
                             </Header>
-                            <Form className="login-form">
+                            <Form onSubmit = {this.props.onSubmit} className="login-form">
                                 <Form.Item>
                                     {getFieldDecorator('username', {
                                         rules: [{ required: true, message: 'Please input your username!' }],
@@ -67,6 +67,23 @@ class LoginPage extends React.Component {
         })
     }
 
+    handleSubmit = (e) => {
+        const form = this.formRef.props.form;
+        e.preventDefault();
+        form.validateFields((err, values) => {
+        if(!err) {
+            console.log('Received values of form: ', values);
+            if (values.username === 'ADMIN' && values.password === 'ADMIN'){
+              form.validateLogin();
+            }
+          }
+        })
+    }
+
+    saveFormRef = (formRef) => {
+        this.formRef = formRef;
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -76,8 +93,10 @@ class LoginPage extends React.Component {
                 </Button>
 
                 <LoginForm 
+                    wrappedComponentRef = {this.saveFormRef}
                     visible = {this.state.visible}
                     onCancel = {this.handleCancel}
+                    onSubmit = {this.handleSubmit}
                 />
             </React.Fragment>
             
