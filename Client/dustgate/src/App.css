@@ -58,10 +58,3 @@
   cursor: pointer;
   transition: color .3s;
 }
-
-.login_Btn {
-  float: right;
-  height: 32px;
-  width: 128px;
-  margin: 1% 1.5% 0% 0%
-}

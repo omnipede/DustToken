@@ -2,6 +2,7 @@ import React from 'react';
 import {
     Modal, Form, Input, Button, Layout, Icon
 } from 'antd';
+import "antd/dist/antd.css";
 import './style/style.css';
 
 const {
@@ -12,7 +13,6 @@ const LoginForm = Form.create({name: 'login'}) (
 
     class extends React.Component {
         render () {
-
             const {getFieldDecorator} = this.props.form;
             return (
                 <div>
