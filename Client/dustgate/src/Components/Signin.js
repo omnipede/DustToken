@@ -118,6 +118,8 @@ class SigninPage extends React.Component {
         form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+                form.resetFields();
+                this.setState({ visible: false })
             }
         })
     }
