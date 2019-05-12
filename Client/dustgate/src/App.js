@@ -4,6 +4,7 @@ import {
 } from 'antd'; 
 
 import LoginPage from './Components/Login';
+import SigninPage from './Components/Signin';
 
 import "antd/dist/antd.css";
 import './App.css';
@@ -96,9 +97,13 @@ class App extends React.Component {
 
         <Layout>
           <Header style={{ background: 'rgba(0, 0, 0, 0)', padding: 0 }} >
+          
             <Icon className="trigger" type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} style={{fontSize: '32px'}}/>
             <img src={logo_black}  alt="Logo" className="logo_in" />
-            <LoginPage />
+            <div style={{width: '512px', height: '64px', float: 'right'}}>
+              <LoginPage />
+              <SigninPage />
+            </div>
           </Header>
           <Content style={{ margin: '16px 16px' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>

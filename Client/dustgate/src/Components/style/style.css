@@ -2,5 +2,12 @@
     float: right;
     height: 32px;
     width: 128px;
-    margin: 1% 1.5% 0% 0%
+    margin: 16px 32px 0% 0%
+  }
+
+  .signin_Btn {
+    float: right;
+    height: 32px;
+    width: 128px;
+    margin: 16px 16px 0% 0%
   }
