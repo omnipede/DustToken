@@ -65,6 +65,7 @@ class LoginPage extends React.Component {
         this.setState({
             visible: false
         })
+        this.formRef.props.form.resetFields();
     }
 
     handleSubmit = (e) => {
