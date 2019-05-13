@@ -1,6 +1,32 @@
+#include <ESP8266WiFi.h>
+#include <ESP8266WiFiMulti.h>
+#include "private.h"
+
+const char* ssid = STASSID;
+const char* password = STAPSK;
+const char* aws_host = AWS_HOST;
+const uint16_t aws_port = AWS_PORT;
+
+ESP8266WiFiMulti WiFiMulti;
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
+
+  WiFi.mode(WIFI_STA);
+  WiFiMulti.addAP(ssid, password);
+
+  Serial.print("\n\nWait for WiFi... ");
+  while(WiFiMulti.run() != WL_CONNECTED) {
+    Serial.print(".");
+    delay(500);
+  }
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+
+  delay(500);
 }
 
 void loop() {
@@ -28,6 +54,18 @@ void loop() {
                 pm25 = buf[0] + buf[1] * 255;
                 pm10 = buf[2] + buf[2] * 255;
                 Serial.println("PM2.5=" + String(pm25) +". PM10=" + String(pm10));
+                delay(3000);
+                WiFiClient client;
+                if (client.connect(aws_host, aws_port)){
+                  String req = "GET /data?pm25=" + String(pm25) + "&pm10=" + String(pm10) + " HTTP/1.1\r\n" +
+                               "Host: " + aws_host + "\r\n" +
+                               "Connection: close\r\n\r\n";
+                  client.print(req);
+                  Serial.print(req);
+                }
+                else
+                  Serial.println("Connection failed\n");
+                delay(3000);
               }
               else {
                 Serial.print("Wrong END");
