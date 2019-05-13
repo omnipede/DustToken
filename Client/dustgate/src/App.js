@@ -79,16 +79,17 @@ class App extends React.Component {
           <Header style={{ background: 'rgba(0, 0, 0, 0)', padding: 0 }} >
             <Icon className="trigger" type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} style={{fontSize: '32px'}}/>
             <img src={logo_black}  alt="Logo" className="logo_in" />
-            
-            { this.state.login === false
-              ? <div style={{width: '512px', height: '64px', float: 'right'}}>
-              <LoginPage onLogin = {this.handleLogin} />
-              <SigninPage /> 
+            {
+              this.state.login === false
+              ? <div style={{ width: '512px', height: '64px', float: 'right' }}>
+                <LoginPage onLogin={this.handleLogin} />
+                <SigninPage />
               </div>
-              : <div style={{width: '256px', height: '64px', float: 'right'}}>
-              Welcome <i>{"" + this.userInfo.username}! {' '} </i> 
-              <Button type="danger" onClick={this.handleLogout}>log out</Button>
-              </div>}
+              : <div style={{ width: '256px', height: '64px', float: 'right' }}>
+                Welcome <i>{"" + this.userInfo.username}! {' '} </i>
+                <Button type="danger" onClick={this.handleLogout}>log out</Button>
+              </div>
+            }
           </Header>
           <Content style={{ margin: '16px 16px' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>

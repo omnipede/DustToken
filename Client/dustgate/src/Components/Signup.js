@@ -41,18 +41,7 @@ const SigninForm = Form.create({name: 'signin'})(
             return(
                 <div>
                     <Modal visible={this.props.visible} footer={null} onCancel = {this.props.onCancel} >
-                        <Form onSubmit = {this.props.onSubmit}> {/*
-                            <Form.Item label="E-mail">
-                                {getFieldDecorator('email', {
-                                    rules: [{
-                                        type: 'email', message: 'The input is not valid E-mail', 
-                                    }, {
-                                        required: 'true', message: 'Please input your E-mail!',
-                                    }], 
-                                }) (
-                                    <Input />
-                                )}
-                                </Form.Item> */}
+                        <Form onSubmit = {this.props.onSubmit}> 
                             <Form.Item label="Username">
                                 {getFieldDecorator('username', {
                                     rules: [{
@@ -134,7 +123,7 @@ class SigninPage extends React.Component {
             <React.Fragment>
                 <Button
                     className="signin_Btn" onClick={this.showModal}
-                > Sign in
+                > Sign up
                 </Button>
 
                 <SigninForm 
