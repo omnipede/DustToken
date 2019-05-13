@@ -6,6 +6,7 @@ import {
 import LoginPage from './Components/Login';
 import Menubar from './Components/Menubar';
 import SigninPage from './Components/Signup';
+import Template from './Components/Template';
 
 import "antd/dist/antd.css";
 import './App.css';
@@ -59,16 +60,12 @@ class App extends React.Component {
     })
   }
 
-  getContent = () => {
+  getContent () {
     switch(this.state.nav){
-      case "Intro.":
-      break;
-      case "Device":
-      break;
-      case "API":
-      break;
-      case "Block chain":
-      break;
+      case "Intro.": return <Template text="Intro." />
+      case "Device": return <Template text="Device" />
+      case "API": return <Template text="API" />
+      case "Block chain": return <Template text="Block chain" />
       default:
       break;
     }
@@ -95,12 +92,7 @@ class App extends React.Component {
           </Header>
           <Content style={{ margin: '16px 16px' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-            { this.state.nav === "login" 
-            /*getContent() 구현 */
-            ? <div> this is page two </div>
-            : <div> this is not page two </div>
-            }
-              Bill is a cat.
+              {this.getContent()}
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
