@@ -75,6 +75,7 @@ class LoginPage extends React.Component {
             if (!err) {
                 console.log('Received values of form: ', values);
                 if (values.username === 'admin' && values.password === '123') {
+                    this.props.onLogin(values.username);
                     form.resetFields();
                     this.setState({ visible: false })
                 }

@@ -24,6 +24,10 @@ class App extends React.Component {
     login: false
   };
 
+  userInfo = {
+    username: null
+  }
+
   /* Menu collapse callback */
   onCollapse = (collapsed) => {
     this.setState({collapsed});
@@ -45,11 +49,18 @@ class App extends React.Component {
     })
   };
 
-  validateLogin = () => {
-    console.log("Log in!");
+  handleLogin = (username) => {
+    console.log(username);
+    this.userInfo.username = username;
     this.setState({
-      login: true,
-      visible: false
+      login: true
+    })
+  }
+
+  handleLogout = (username) => {
+    this.userInfo.username = undefined;
+    this.setState({
+      login: false
     })
   }
 
@@ -97,13 +108,19 @@ class App extends React.Component {
 
         <Layout>
           <Header style={{ background: 'rgba(0, 0, 0, 0)', padding: 0 }} >
-          
             <Icon className="trigger" type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} style={{fontSize: '32px'}}/>
             <img src={logo_black}  alt="Logo" className="logo_in" />
-            <div style={{width: '512px', height: '64px', float: 'right'}}>
-              <LoginPage />
-              <SigninPage />
-            </div>
+            
+            { this.state.login === false
+              ? <div style={{width: '512px', height: '64px', float: 'right'}}>
+              <LoginPage onLogin = {this.handleLogin} />
+              <SigninPage /> 
+              </div>
+              : <div style={{width: '256px', height: '64px', float: 'right'}}>
+              Welcome <i>{"" + this.userInfo.username}!</i> 
+              <Button type="danger" onClick={this.handleLogout}>log out</Button>
+              </div>}
+              
           </Header>
           <Content style={{ margin: '16px 16px' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
