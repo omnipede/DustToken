@@ -4,7 +4,7 @@ import {
 } from 'antd'; 
 
 import LoginPage from './Components/Login';
-import SigninPage from './Components/Signin';
+import SigninPage from './Components/Signup';
 
 import "antd/dist/antd.css";
 import './App.css';
