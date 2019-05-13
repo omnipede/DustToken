@@ -21,6 +21,7 @@ router.get('/data',function(req,res){
             var input = date + ',' + temp+'\n'
             console.log(req.query.date)
             console.log(req.query.temp) 
+            console.log("hihi")
             fs.appendFile(file,input,function(err){
                     if(err)throw err
                     console.log('data is written in '+input)
