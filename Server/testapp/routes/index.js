@@ -28,7 +28,6 @@ var connection = mysql.createConnection({
         user:mysqlinfo.user,
         password:mysqlinfo.password,
         database:mysqlinfo.database
-
 })
 connection.connect(function(err){
         if(err)throw err;
@@ -50,8 +49,9 @@ router.get('/data',function(req,res){
 })
 router.post('/register',function(req,res){
         
-        console.log(req.body);
+      //  console.log(req.body);
         var request = req.body;
+        var id = req.body.id;
         var today = new Date();
         var users = {
                 "id": request.id,
@@ -59,28 +59,40 @@ router.post('/register',function(req,res){
                 "created": today,
                 "modified": today
         }
-        connection.query('SELECT * FROM users WHERE id = ?',[req.body.id],function(err,results,fields){
+        
+        connection.query('SELECT * FROM users WHERE id = ?',[id],function(err,results,fields){
                 if(err){
-                        throw err;
-                }
-                if(results[0].id == req.body.id){
-                        res.status(400)
+                       throw err;
                         res.send({
-                                "code":400,
-                                "success":"same id already exists!"
-                        })
+                        "code": 400,
+                        "failed": "error ocurred"
+                    })
                 }
-                else{
+                if(results.length==0){
+                        console.log(users)
                         connection.query('INSERT INTO users set ? ', users, function (error, results, fields) {
                                 if (error) {
                                         throw error;
                                 }
                                 console.log("database insertion completed %j", users);
-                        });  
+                                res.send({
+                                        "code":200,
+                                        "success":"new id is registered!"
+                                })
+                        })
+                }
+                else if(results[0].id == req.body.id){
+                        res.status(400)
+                        res.send({
+                                "code":400,
+                                "success":"same id already exists!"
+                        })
+
                 }
         })
-         
-            
+                    
+
+
 })
 router.post('/login',function(req,res){
         var id = req.body.id;
@@ -92,7 +104,8 @@ router.post('/login',function(req,res){
                     "code": 400,
                     "failed": "error ocurred"
                 })
-            } else {
+            } 
+            else {
                 console.log('The solution is: ', results);
                 if(results.length > 0) {
                     if(results[0].password == password) {
