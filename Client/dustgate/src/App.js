@@ -6,6 +6,7 @@ import {
 import LoginPage from './Components/Login';
 import Menubar from './Components/Menubar';
 import SigninPage from './Components/Signup';
+import Device from './Components/Device';
 import Template from './Components/Template';
 
 import "antd/dist/antd.css";
@@ -63,7 +64,7 @@ class App extends React.Component {
   getContent () {
     switch(this.state.nav){
       case "Intro.": return <Template text="Intro." />
-      case "Device": return <Template text="Device" />
+      case "Device": return <Device text="Device" />
       case "API": return <Template text="API" />
       case "Block chain": return <Template text="Block chain" />
       default:
