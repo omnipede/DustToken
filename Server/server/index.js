@@ -7,6 +7,7 @@ const app = express();
 
 let privateKey = Buffer(secret.private_key, 'hex');
 let web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/v3/49b9acbd693940a0bf84fef21253e244'));
+let prev = 0;
 const dusttoken = new web3.eth.Contract(config.abi, config.address);
 
 app.get('/', function(req, res) {
@@ -23,20 +24,26 @@ app.get('/data', function(req, res){
   let amount = web3.utils.toHex(1e18);
   web3.eth.getTransactionCount(sender)
   .then((count) => {
-  	console.log(count);
+	if (count <= prev) {
+		count = prev + 1;
+	}
+	prev = count;
+	console.log(count);
 	let rawTransaction = {
 		'from': sender, 
 		'gasPrice': web3.utils.toHex(20*1e9),
 		'gasLimit': web3.utils.toHex(210000),
 		'to': config.address,
-		'value': 0x0,
+		'value':0x0,
 		'data': dusttoken.methods.transfer(receiver, amount).encodeABI(),
 		'nonce': web3.utils.toHex(count)
 	}
 	let transaction = new Tx(rawTransaction)
 	transaction.sign(privateKey);
 	web3.eth.sendSignedTransaction('0x' + transaction.serialize().toString('hex'))
-		.on('transactionHash', console.log);
+		.on('transactionHash', (hash) => {
+			console.log(hash);
+		});
   }) 
   res.send(dusttoken.address);
 })
