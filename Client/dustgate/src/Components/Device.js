@@ -19,7 +19,7 @@ const Device = Form.create({name: 'device_register'})(
             { title: 'Location', dataIndex: 'location', key: 'location'},
             { title: 'Wallet Address', dataIndex: 'wallet_address', key: 'wallet_address', },
             { title: 'Action', dataIndex: 'action',
-                render: (text, record) => <Button type="danger" onClick={() => this.handleDelete(record.key)}> Delete </Button>
+                render: (text, record) => <Button type="danger" onClick={() => this.handleDelete(record)}> Delete </Button>
             }
         ]
         
@@ -52,10 +52,17 @@ const Device = Form.create({name: 'device_register'})(
             this.setState({ visible: false });
         }
 
-        handleDelete = (key) => {
+        handleDelete = (record) => {
             const dataSource = [...this.state.dataSource];
             this.setState({
-                dataSource: dataSource.filter(item => item.key !== key)
+                dataSource: dataSource.filter(item => item.key !== record.key)
+            })
+            axios.get('http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/device/delete', {
+                params: {
+                    device_id: record.device_id
+                }
+            }).then(response => {
+                /* Error */
             })
         }
 
