@@ -1,17 +1,25 @@
+
 const config = require( '../../Ethereum/config.json');
 const secret = require('../../Ethereum/private.json');
+const connection = require('./connection.js');
 const Web3 = require ('web3');
 const Tx = require('ethereumjs-tx');
 const express = require('express');
 const app = express();
+
+connection.connect();
 
 let privateKey = Buffer(secret.private_key, 'hex');
 let web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/v3/49b9acbd693940a0bf84fef21253e244'));
 let prev = 0;
 const dusttoken = new web3.eth.Contract(config.abi, config.address);
 
-app.get('/', function(req, res) {
-  res.send("Hello world");
+app.get('/device/list', function(req, res) {
+	let query = connection.query('select * from front', function(err, rows, cols) {
+		if(err) throw err;
+		console.log(rows);
+		res.send(rows);
+	})
 })	
 
 app.get('/data', function(req, res){
