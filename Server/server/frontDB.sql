@@ -1,11 +1,10 @@
 DROP TABLE IF EXISTS front;
 CREATE TABLE front (
-	id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT,
-	username VARCHAR(20),
 	device_id INT(10),
+	username VARCHAR(20),
 	wallet_address VARCHAR(66),
 	location VARCHAR(10),
-	PRIMARY KEY (id)
+	PRIMARY KEY (device_id)
 );
 
 INSERT INTO front SET username='admin',
