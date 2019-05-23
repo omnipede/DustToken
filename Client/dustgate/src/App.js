@@ -84,23 +84,27 @@ class App extends React.Component {
           <Header style={{ background: 'rgba(0, 0, 0, 0)', padding: 0 }} >
             <Row>
               <Col span={8}>
-            <Icon className="trigger" type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} style={{fontSize: '32px'}}/>
-            <img src={logo_black}  alt="Logo" className="logo_in" />
+                <Icon className="trigger" type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} style={{fontSize: '32px'}}/>
+                <img src={logo_black}  alt="Logo" className="logo_in" />
               </Col>
             {
               this.state.login === false
-              ? /*<div style={{ width: '512px', height: '64px', float: 'right' }}>*/
+              ? 
                 <Col span={16}>
                 <LoginPage onLogin={this.handleLogin} />
                 <SigninPage />
                 </Col>
-                /*</div>*/
-              : /*<div style={{ width: '256px', height: '64px', float: 'right' }}> */
-              <Col span={16}>
-                Welcome <i>{"" + this.userInfo.username}! {' '} </i>
-                <Button type="danger" onClick={this.handleLogout}>log out</Button>
+              : 
+                <Col span={16}>
+                  <div style={{float: 'right', margin: '0% 32px 0% 0%'}}>
+                    <span style={{margin: '0 8px 0 0'}}>
+                      Welcome <i>{"" + this.userInfo.username}! {' '} </i>
+                    </span>
+                    <span>
+                      <Button type="danger" onClick={this.handleLogout}>log out</Button>
+                    </span>
+                  </div>
                 </Col>
-              /*</div> */
             }
             </Row>
           </Header>
