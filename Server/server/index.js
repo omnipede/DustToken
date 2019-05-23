@@ -1,4 +1,3 @@
-
 const config = require( '../../Ethereum/config.json');
 const secret = require('../../Ethereum/private.json');
 const connection = require('./connection.js');
@@ -15,12 +14,53 @@ let prev = 0;
 const dusttoken = new web3.eth.Contract(config.abi, config.address);
 
 app.get('/device/list', function(req, res) {
-	let query = connection.query('select * from front', function(err, rows, cols) {
-		if(err) throw err;
-		console.log(rows);
-		res.send(rows);
-	})
+	let username = req.query.username;
+	let query = connection.query(
+		'select * from front where username=?',username, 
+		function(err, rows, cols) {
+			if(err) {
+				console.log(err);
+			}
+			console.log(rows);
+			res.send(rows);
+		}
+	)
 })	
+
+app.get('/device/add', function(req, res) {
+	let r = {
+		'username': req.query.username,
+		'device_id': req.query.device_id,
+		'location': req.query.loc,
+		'wallet_address': req.query.wallet_address
+	}
+	let query = connection.query(
+		'insert into front set ?', r, 
+		function(err, rows, cols) {
+			if (err) {
+				console.log(err);
+			}
+			console.log('done!');
+		}
+	)
+	res.end();
+})
+
+app.get('/device/delete', function(req, res) {
+	let r = {
+		'device_id': req.query.device_id
+	}
+	let query = connection.query(
+		'delete from front where ?', r,
+		function(err, rows, cols) {
+			if(err) {
+				console.log(err);
+			}
+			console.log('done');
+		}
+	)
+	res.end();
+})
 
 app.get('/data', function(req, res){
   var r = {};
