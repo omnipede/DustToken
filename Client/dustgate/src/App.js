@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Layout, Icon, Button
+  Layout, Icon, Button,
 } from 'antd'; 
 
 import LoginPage from './Components/Login';
@@ -39,8 +39,6 @@ class App extends React.Component {
 
   /* Menu handling callback */
   handleMenuClick = (e) => {
-    /* Debug purpose */
-    console.log('click', e);
     this.setState({
       nav: e.key,
     })
@@ -63,12 +61,18 @@ class App extends React.Component {
 
   getContent () {
     switch(this.state.nav){
-      case "Intro.": return <Template text="Intro." />
-      case "Device": return <Device text="Device" />
-      case "API": return <Template text="API" />
-      case "Block chain": return <Template text="Block chain" />
-      default:
-      break;
+      case "Intro.": 
+      return <Template text="Intro." />
+      case "Device": 
+      return <Device 
+        text="Device" 
+        username={this.userInfo.username} 
+      />
+      case "API": 
+      return <Template text="API" />
+      case "Block chain": 
+      return <Template text="Block chain" />
+      default: ;
     }
   }
 
@@ -94,7 +98,7 @@ class App extends React.Component {
           </Header>
           <Content style={{ margin: '16px 16px' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-              {this.getContent()}
+              { this.getContent() }
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>

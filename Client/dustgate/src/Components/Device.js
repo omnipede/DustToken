@@ -24,7 +24,11 @@ const Device = Form.create({name: 'device_register'})(
         ]
         
         componentDidMount() {
-            axios.get('http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/device/list?username=admin')
+            axios.get('http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/device/list', {
+                params: {
+                    username: this.props.username
+                }
+            })
             .then(response => {
                 let t = [];
                 let c = this.state.dataCount;
@@ -81,7 +85,7 @@ const Device = Form.create({name: 'device_register'})(
                     }
                     axios.get('http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/device/add', {
                         params: {
-                            username: 'admin',
+                            username: this.props.username,
                             device_id: newData.device_id,
                             loc: newData.location,
                             wallet_address: newData.wallet_address
