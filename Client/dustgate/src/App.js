@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Layout, Icon, Button,
+  Layout, Icon, Button, Row, Col
 } from 'antd'; 
 
 import LoginPage from './Components/Login';
@@ -82,19 +82,27 @@ class App extends React.Component {
         <Menubar collapsed={this.state.collapsed} onMenuClick={this.handleMenuClick} />
         <Layout>
           <Header style={{ background: 'rgba(0, 0, 0, 0)', padding: 0 }} >
+            <Row>
+              <Col span={8}>
             <Icon className="trigger" type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} style={{fontSize: '32px'}}/>
             <img src={logo_black}  alt="Logo" className="logo_in" />
+              </Col>
             {
               this.state.login === false
-              ? <div style={{ width: '512px', height: '64px', float: 'right' }}>
+              ? /*<div style={{ width: '512px', height: '64px', float: 'right' }}>*/
+                <Col span={16}>
                 <LoginPage onLogin={this.handleLogin} />
                 <SigninPage />
-              </div>
-              : <div style={{ width: '256px', height: '64px', float: 'right' }}>
+                </Col>
+                /*</div>*/
+              : /*<div style={{ width: '256px', height: '64px', float: 'right' }}> */
+              <Col span={16}>
                 Welcome <i>{"" + this.userInfo.username}! {' '} </i>
                 <Button type="danger" onClick={this.handleLogout}>log out</Button>
-              </div>
+                </Col>
+              /*</div> */
             }
+            </Row>
           </Header>
           <Content style={{ margin: '16px 16px' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
