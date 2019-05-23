@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Layout, Icon, Button, Row, Col
+  Layout, Icon, Button, Row, Col, Typography
 } from 'antd'; 
 
 import LoginPage from './Components/Login';
@@ -17,6 +17,10 @@ import logo_black from './logo_black.png';
 const {
   Header, Content, Footer,
 } = Layout;
+
+const {
+  Text
+} = Typography;
 
 class App extends React.Component {
   state = {
@@ -97,11 +101,11 @@ class App extends React.Component {
               : 
                 <Col span={16}>
                   <div style={{float: 'right', margin: '0% 32px 0% 0%'}}>
-                    <span style={{margin: '0 8px 0 0'}}>
-                      Welcome <i>{"" + this.userInfo.username}! {' '} </i>
+                    <span style={{margin: '0 16px 0 0'}}>
+                      Welcome <Text code>{"" + this.userInfo.username}</Text>
                     </span>
                     <span>
-                      <Button type="danger" onClick={this.handleLogout}>log out</Button>
+                      <Button type="danger" onClick={this.handleLogout} style={{height: '32px', width: '128px'}}>log out</Button>
                     </span>
                   </div>
                 </Col>
