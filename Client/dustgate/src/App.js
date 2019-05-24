@@ -31,7 +31,7 @@ class App extends React.Component {
   };
 
   userInfo = {
-    username: null
+    username: ''
   }
 
   /* Menu toggle callback. */
@@ -69,7 +69,7 @@ class App extends React.Component {
       return <Template text="Intro." />
       case "Device": 
       if (this.state.login === false) {
-        return <Empty description="Login please" />
+        return <Empty description={<h2>Please login...</h2>} />
       }
       return <Device 
         text="Device" 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Icon, Table, Modal, Layout, Form, Input} from 'antd';
+import {Button, Icon, Table, Modal, Layout, Form, Input, Row, Col} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 const {
@@ -142,12 +142,20 @@ const Device = Form.create({name: 'device_register'})(
         }
         render() {
             return (
-                <div style={{ padding: '0 0 0 5%' }}>
+                <div style={{ padding: '0 5% 0 5%' }}>
                     {this.getRegister()}
-                    <div style={{ padding: '0 0 0 65%' }}>
-                        <Button type="primary" onClick={this.add}> <Icon type="plus" /> Add </Button>
-                    </div>
-                    <Table columns={this.columns} dataSource={this.state.dataSource} style={{ width: '60%' }} pagination={false}/>
+                    <Row style={{padding: '0 0 2% 0'}}>
+                        <Col span={8}> 
+                            <h2> <b>내 기기관리 </b> </h2>
+                            <h1> <b>{this.state.dataCount}</b>개의 기기가 등록되어 있습니다. </h1>
+                        </Col>
+                        <Col span={16} > 
+                            <div style={{float: 'right'}}>
+                                <Button type="primary" onClick={this.add} style={{width: 128}}> <Icon type="plus" /> Add </Button> 
+                            </div>
+                        </Col>
+                    </Row>
+                    <Table columns={this.columns} dataSource={this.state.dataSource} pagination={false}/>
                 </div>
             )
         }
