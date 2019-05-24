@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Layout, Icon, Button, Row, Col, Typography
+  Layout, Icon, Button, Row, Col, Typography, Empty
 } from 'antd'; 
 
 import LoginPage from './Components/Login';
@@ -68,6 +68,9 @@ class App extends React.Component {
       case "Intro.": 
       return <Template text="Intro." />
       case "Device": 
+      if (this.state.login === false) {
+        return <Empty description="Login please" />
+      }
       return <Device 
         text="Device" 
         username={this.userInfo.username} 
