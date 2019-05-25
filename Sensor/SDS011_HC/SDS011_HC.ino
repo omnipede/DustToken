@@ -6,6 +6,7 @@ const char* ssid = STASSID;
 const char* password = STAPSK;
 const char* aws_host = AWS_HOST;
 const uint16_t aws_port = AWS_PORT;
+const uint16_t device_id = DEVICE_ID;
 
 ESP8266WiFiMulti WiFiMulti;
 
@@ -54,10 +55,10 @@ void loop() {
                 pm25 = buf[0] + buf[1] * 255;
                 pm10 = buf[2] + buf[2] * 255;
                 Serial.println("PM2.5=" + String(pm25) +". PM10=" + String(pm10));
-                delay(3000);
+                delay(1000);
                 WiFiClient client;
                 if (client.connect(aws_host, aws_port)){
-                  String req = "GET /data?pm25=" + String(pm25) + "&pm10=" + String(pm10) + " HTTP/1.1\r\n" +
+                  String req = "GET /data?pm25=" + String(pm25) + "&pm10=" + String(pm10) + "&device_id=" + String(device_id) + " HTTP/1.1\r\n" +
                                "Host: " + aws_host + "\r\n" +
                                "Connection: close\r\n\r\n";
                   client.print(req);
