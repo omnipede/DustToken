@@ -74,7 +74,12 @@ app.get('/api/list', function(req, res) {
 			if(err) {
 				console.log(err);
 			}
-			web3.eth.getTransaction(rows[0].hash).then(console.log);
+			rows.forEach(function(item, index, array) {
+				web3.eth.getTransaction(item.hash).then((receipt) => {
+					let res = web3.eth.abi.decodeParameters(['string', 'uint256', 'uint256', 'uint256'], receipt.input)
+					console.log(res['0'], res['1'].toString(), res['2'].toString(), res['3'].toString());
+				});
+			})
 		}
 	)
 	res.end();
@@ -86,6 +91,7 @@ app.get('/data', function(req, res){
 	'pm25': req.query.pm25,
 	'pm10': req.query.pm10
   }
+
   console.log(r);
 
   /* Find device entry */
@@ -98,7 +104,6 @@ app.get('/data', function(req, res){
 	  let fromAddress = "0x0164214FF43A46c8ad6C399811576ABFaB68FA42";
 	  let toAddress = rows[0].wallet_address;
 	  let amount = web3.utils.toHex(1e15);
-	  console.log('Send to ', toAddress);
 
 	  /* Send transaction. */
 	  web3.eth.getTransactionCount(fromAddress)
@@ -107,13 +112,12 @@ app.get('/data', function(req, res){
 			count = prev + 1;
 		}
 		prev = count;
-		console.log(count);
 		let rawTransaction = {
 		  'from': fromAddress,
 		  'gasPrice': web3.utils.toHex(20*1e9),
 		  'gasLimit': web3.utils.toHex(210000),
 		  'to': config.address,
-		  'value': 0x0,
+		  'value': 0x00,
 		  'data': dusttoken.methods.transfer(toAddress, amount).encodeABI(),
 		  'nonce': web3.utils.toHex(count)
 		}
@@ -121,22 +125,50 @@ app.get('/data', function(req, res){
 		transaction.sign(privateKey);
 		web3.eth.sendSignedTransaction('0x' + transaction.serialize().toString('hex'))
 		.on('transactionHash', (hash)=> {
-		  let d = {
-		  	'device_id': r.device_id || '',
-			'hash': hash
-		  }
-		  /* Insert data. */
-		  connection.query(
-		  	'insert into back set ?', d, 
-			function(err, rows, cols) {
-			  if (err) {
-			  	console.log(err);
-			  }
-			  console.log('inserted');
-			}
-		  )
+
 		});
 	  })
+
+	  let loc = rows[0]['location'] || '';
+	  let pm25 = r.pm25;
+	  let pm10 = r.pm10;
+	  let time = Date.now();
+
+	  /* Save data to transaction. */
+	  web3.eth.getTransactionCount(fromAddress)
+	  .then((count) => {
+	    if (count <= prev)
+		  count = prev + 1;
+		prev = count;
+		let rawTransaction = {
+		  'from': fromAddress, 
+		  'gasPrice': web3.utils.toHex(20*1e9),
+		  'gasLimit': web3.utils.toHex(210000),
+		  'to': toAddress,
+		  'value': 0x00,
+		  'data': web3.eth.abi.encodeParameters(['string', 'uint256', 'uint256', 'uint256'], [loc, pm25, pm10, time]),
+		  'nonce': web3.utils.toHex(count)
+		}
+		let transaction = new Tx(rawTransaction);
+		transaction.sign(privateKey);
+		web3.eth.sendSignedTransaction('0x' + transaction.serialize().toString('hex'))
+		.on('transactionHash', (hash) => {
+		  let d = {
+		    'device_id': r.device_id,
+			'hash': hash || ''
+		  }
+
+		  connection.query(
+		    'insert into back set ?', d, 
+			function(err, rows, cols) {
+			  if(err)
+			    console.log(err);
+			  console.log('Inserted');
+			}
+		  );
+
+		});
+	  });
 	}
   )
   res.send('Received');
