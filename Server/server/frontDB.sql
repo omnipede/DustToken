@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS front;
 CREATE TABLE front (
 	device_id INT(10),
 	username VARCHAR(20),
