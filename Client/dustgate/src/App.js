@@ -7,6 +7,7 @@ import LoginPage from './Components/Login';
 import Menubar from './Components/Menubar';
 import SigninPage from './Components/Signup';
 import Device from './Components/Device';
+import API from './Components/API';
 import Template from './Components/Template';
 
 import "antd/dist/antd.css";
@@ -69,14 +70,14 @@ class App extends React.Component {
       return <Template text="Intro." />
       case "Device": 
       if (this.state.login === false) {
-        return <Empty description={<h2>Please login...</h2>} />
+        return <Empty description='Please login...' />
       }
       return <Device 
         text="Device" 
         username={this.userInfo.username} 
       />
       case "API": 
-      return <Template text="API" />
+      return <API text="API" />
       case "Block chain": 
       return <Template text="Block chain" />
       default: ;
