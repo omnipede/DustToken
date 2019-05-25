@@ -9,12 +9,14 @@ const app = express();
 connection.connect();
 
 let privateKey = Buffer(secret.private_key, 'hex');
-let web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/v3/49b9acbd693940a0bf84fef21253e244'));
+let web3 = new Web3(new Web3.providers.HttpProvider(
+	'https://ropsten.infura.io/v3/49b9acbd693940a0bf84fef21253e244'
+	));
 let prev = 0;
 const dusttoken = new web3.eth.Contract(config.abi, config.address);
 
 app.get('/device/list', function(req, res) {
-	let username = req.query.username;
+	let username = req.query.username || '';
 	let query = connection.query(
 		'select * from front where username=?',username, 
 		function(err, rows, cols) {
@@ -63,37 +65,50 @@ app.get('/device/delete', function(req, res) {
 })
 
 app.get('/data', function(req, res){
-  var r = {};
-  r.pm25 = req.query.pm25;
-  r.pm10 = req.query.pm10;
+  let r = {
+	'device_id': req.query.device_id || 0,
+	'pm25': req.query.pm25,
+	'pm10': req.query.pm10
+  }
   console.log(r);
-  let sender = "0x0164214FF43A46c8ad6C399811576ABFaB68FA42";
-  let receiver = "0x81efe0E5894085395F9E4B3B8745DC28304fcf3c"; 
-  let amount = web3.utils.toHex(1e18);
-  web3.eth.getTransactionCount(sender)
-  .then((count) => {
-	if (count <= prev) {
-		count = prev + 1;
-	}
-	prev = count;
-	console.log(count);
-	let rawTransaction = {
-		'from': sender, 
-		'gasPrice': web3.utils.toHex(20*1e9),
-		'gasLimit': web3.utils.toHex(210000),
-		'to': config.address,
-		'value':0x0,
-		'data': dusttoken.methods.transfer(receiver, amount).encodeABI(),
-		'nonce': web3.utils.toHex(count)
-	}
-	let transaction = new Tx(rawTransaction)
-	transaction.sign(privateKey);
-	web3.eth.sendSignedTransaction('0x' + transaction.serialize().toString('hex'))
-		.on('transactionHash', (hash) => {
-			console.log(hash);
+  connection.query(
+  	'select * from front where device_id=?', r.device_id, 
+	function(err, rows, cols) {
+	  if (err) {
+		console.log(err);
+	  }
+	  console.log(rows);
+
+	  let fromAddress = "0x0164214FF43A46c8ad6C399811576ABFaB68FA42";
+	  let toAddress = rows[0].wallet_address;
+	  let amount = web3.utils.toHex(1e15);
+	  console.log('Send to ', toAddress);
+	  web3.eth.getTransactionCount(fromAddress)
+	  .then((count) => {
+	  	if (count <= prev) {
+			count = prev + 1;
+		}
+		prev = count;
+		console.log(count);
+		let rawTransaction = {
+		  'from': fromAddress,
+		  'gasPrice': web3.utils.toHex(20*1e9),
+		  'gasLimit': web3.utils.toHex(210000),
+		  'to': config.address,
+		  'value': 0x0,
+		  'data': dusttoken.methods.transfer(toAddress, amount).encodeABI(),
+		  'nonce': web3.utils.toHex(count)
+		}
+		let transaction = new Tx(rawTransaction);
+		transaction.sign(privateKey);
+		web3.eth.sendSignedTransaction('0x' + transaction.serialize().toString('hex'))
+		.on('transactionHash', (hash)=> {
+		  console.log(hash);
 		});
-  }) 
-  res.send(dusttoken.address);
+	  })
+	}
+  )
+  res.send('Received');
 })
 
 app.listen(3001, () => console.log('Listening on port 3001'));
