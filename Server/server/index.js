@@ -64,25 +64,32 @@ app.get('/device/delete', function(req, res) {
 	res.end();
 })
 
-app.get('/api/list', function(req, res) {
+app.get('/api/list', async(req, res) => {
 	let r = {
 
 	}
 	let query = connection.query(
 		'select * from back', 
-		function(err, rows, cols) {
+		async function(err, rows, cols) {
 			if(err) {
 				console.log(err);
 			}
-			rows.forEach(function(item, index, array) {
-				web3.eth.getTransaction(item.hash).then((receipt) => {
-					let res = web3.eth.abi.decodeParameters(['string', 'uint256', 'uint256', 'uint256'], receipt.input)
-					console.log(res['0'], res['1'].toString(), res['2'].toString(), res['3'].toString());
-				});
-			})
+			let data = await Promise.all( rows.map( async (item) => {
+				let tx = await web3.eth.getTransaction(item.hash);
+				let entry = web3.eth.abi.decodeParameters(
+					['string', 'uint256', 'uint256', 'uint256'], tx.input
+				);
+				return( {
+					'location': entry['0'],
+					'pm25': entry['1'].toString(),
+					'pm10': entry['2'].toString(),
+					'time': entry['3'].toString()
+				})
+			}) )
+			console.log(data);
+			res.send(data);
 		}
 	)
-	res.end();
 });
 
 app.get('/data', function(req, res){
