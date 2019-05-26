@@ -40,13 +40,6 @@ router.get('/data',function(req,res){
         var pm0 = req.query.pm0;
         date = moment().add(0, 'hour').format('YYYYMMDD,HH:mm:ss')
         var input = date + ',' + toString(pm0) + '\n'
-        // console.log(req.query.devicename)
-        // console.log(req.query.date)
-        // console.log(req.query.pm0)
-        // fs.appendFile(file, input, function (err) {
-        //         if (err) throw err
-        //         console.log('data is written in ' + input)
-        // })
         console.log(req.query);
         var data = {
                 "devicename":req.query.devicename,
@@ -61,6 +54,18 @@ router.get('/data',function(req,res){
                         "code":200,
                         "success":"data insertion is completed!"
                 })
+        })
+})
+router.get('/dump',function(req,res){
+        var devicename = req.query.devicename;
+        var post = {"devicename":devicename}
+        console.log(devicename)
+        connection.query('SELECT * FROM data WHERE devicename =?',[devicename],function(err,results,fields){
+                if(err)throw err;
+               console.log(results.length);
+               for(var i=0;i<results.length;i++){
+                       console.log(results[i].devicename +" "+ results[i].date+" "+toString(results[i].pm0));
+               }
         })
 })
 router.post('/register',function(req,res){
