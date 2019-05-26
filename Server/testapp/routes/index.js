@@ -33,19 +33,35 @@ connection.connect(function(err){
         if(err)throw err;
 })
 
-
+//get은 req.query로 해야하고 post는 req.body로 해야한다.
 router.get('/data',function(req,res){
-            var date = req.query.date;
-            var pm = req.query.pm;
-            date = moment().add(0,'hour').format('YYYYMMDD,HH:mm:ss')
-            var input = date + ',' + pm+'\n'
-            console.log(req.query.date)
-            console.log(req.query.pm) 
-            fs.appendFile(file,input,function(err){
-                    if(err)throw err
-                    console.log('data is written in '+input)
-            })
-   
+        var devicename = req.query.devicename;
+        var date = req.query.date;
+        var pm0 = req.query.pm0;
+        date = moment().add(0, 'hour').format('YYYYMMDD,HH:mm:ss')
+        var input = date + ',' + toString(pm0) + '\n'
+        // console.log(req.query.devicename)
+        // console.log(req.query.date)
+        // console.log(req.query.pm0)
+        // fs.appendFile(file, input, function (err) {
+        //         if (err) throw err
+        //         console.log('data is written in ' + input)
+        // })
+        console.log(req.query);
+        var data = {
+                "devicename":req.query.devicename,
+                "pm0":req.query.pm0,
+                "date":new Date()
+        }
+       console.log(data);
+        connection.query('INSERT INTO data set ?',data,function(err,results,fields){
+                if(err)throw err;
+                console.log("database insertion completed %j",data);
+                res.send({
+                        "code":200,
+                        "success":"data insertion is completed!"
+                })
+        })
 })
 router.post('/register',function(req,res){
         
