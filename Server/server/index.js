@@ -69,7 +69,7 @@ app.get('/api/list', async(req, res) => {
 
 	}
 	let query = connection.query(
-		'select * from back', 
+		'select * from back limit 128', 
 		async function(err, rows, cols) {
 			if(err) {
 				console.log(err);
