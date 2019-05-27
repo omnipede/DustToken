@@ -1,7 +1,7 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
-#include "private.h"
-
+//#include "private.h"
+#include "phone.h"
 const char* ssid = STASSID;
 const char* password = STAPSK;
 const char* aws_host = AWS_HOST;
@@ -53,7 +53,7 @@ void loop() {
                 stat = 0;
 
                 pm25 = buf[0] + buf[1] * 255;
-                pm10 = buf[2] + buf[2] * 255;
+                pm10 = buf[2] + buf[3] * 255;
                 Serial.println("PM2.5=" + String(pm25) +". PM10=" + String(pm10));
                 delay(1000);
                 WiFiClient client;
