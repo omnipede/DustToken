@@ -66,10 +66,10 @@ app.get('/device/delete', function(req, res) {
 
 app.get('/api/list', async(req, res) => {
 	let r = {
-
+		count: req.query.count || 128
 	}
 	let query = connection.query(
-		'select * from back limit 128', 
+		`select * from back order by time DESC limit ${r.count}`, 
 		async function(err, rows, cols) {
 			if(err) {
 				console.log(err);
