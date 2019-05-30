@@ -1,2 +1,4 @@
 #node_modules는 용량이 크기 때문에 github에 추가되면 안됩니다.
 node_modules
+#csv 파일 제외
+*.csv
