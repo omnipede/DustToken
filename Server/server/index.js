@@ -4,8 +4,12 @@ const connection = require('./connection.js');
 const Web3 = require ('web3');
 const Tx = require('ethereumjs-tx');
 const express = require('express');
+const cors = require('cors');
 const app = express();
 
+/* CORS header setup. */
+app.use(cors());
+/* DB setup. */
 connection.connect();
 
 let privateKey = Buffer(secret.private_key, 'hex');
