@@ -6,6 +6,7 @@ import {
 import LoginPage from './Components/Login';
 import Menubar from './Components/Menubar';
 import SigninPage from './Components/Signup';
+import Intro from './Components/Intro';
 import Device from './Components/Device';
 import API from './Components/API';
 import Template from './Components/Template';
@@ -67,10 +68,10 @@ class App extends React.Component {
   getContent () {
     switch(this.state.nav){
       case "Intro.": 
-      return <Template text="Intro." />
+      return <Intro text="Intro." />
       case "Device": 
       if (this.state.login === false) {
-        return <Empty description='Please login...' />
+      return <Empty description= { 'Please login...'} />
       }
       return <Device 
         text="Device" 

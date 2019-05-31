@@ -35,15 +35,15 @@ class Menubar extends React.Component {
                </div>
                <Menu theme="dark" defaultSelectedKeys={['Intro.']} mode="inline" onClick={this.props.onMenuClick}>
                    <Menu.Item key="Intro.">
-                       <Icon type="pie-chart" />
+                       <Icon type="home" />
                        <span> Intro. </span>
                    </Menu.Item>
                    <Menu.Item key="Device">
-                       <Icon type="desktop" />
+                       <Icon type="mobile" />
                        <span> Device </span>
                    </Menu.Item>
                    <Menu.Item key="API">
-                       <Icon type="desktop" />
+                       <Icon type="bar-chart" />
                        <span> API </span>
                    </Menu.Item>
                    <Menu.Item key="Block chain">

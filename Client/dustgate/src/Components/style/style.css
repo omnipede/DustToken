@@ -11,3 +11,19 @@
     width: 128px;
     margin: 16px 16px 0% 0%
   }
+
+  .ant-carousel .slick-slide {
+    text-align: center;
+    height: 320px;
+    line-height: 320px;
+    background: #364d79;
+    overflow: hidden;
+  }
+  
+  .ant-carousel .slick-slide h3 {
+    color: #fff;
+  }
+
+  .ant-carousel .slick-slide span {
+    color: #fff;
+  }
