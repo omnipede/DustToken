@@ -1,7 +1,8 @@
 import React from 'react';
-import {Table} from 'antd';
+import {Table, Tabs} from 'antd';
 import axios from 'axios';
 const moment = require('moment-timezone');
+const { TabPane } = Tabs;
 const columns = [
     {
         title: 'Location',
@@ -36,7 +37,6 @@ class API extends React.Component{
                 v.time = moment(new Date(Number(v.time))).tz('Asia/Seoul').format('YYYY-MM-DD HH:mm:ss');
                 return v;
             })
-            console.log(r);
             this.setState({
                 dataSource: [...r]
             })
@@ -45,7 +45,15 @@ class API extends React.Component{
 
     render() {
         return(
-            <div> <Table columns={columns} dataSource={this.state.dataSource} /> </div>
+            <Tabs defaultActiveKey="1">
+                <TabPane tab="Data" key="1">
+                    <div> <Table columns={columns} dataSource={this.state.dataSource} /> </div>
+                </TabPane>
+                <TabPane tab="Chart" key="2">
+                    Content of chart.
+                </TabPane>
+            </Tabs>
+            
         )
     }
 }
