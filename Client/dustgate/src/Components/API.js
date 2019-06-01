@@ -1,26 +1,14 @@
 import React from 'react';
-import {Table, Tabs, Button, Icon} from 'antd';
+import {Table, Tabs, Button, Icon } from 'antd';
 import {Chart} from 'react-google-charts';
 import axios from 'axios';
 const moment = require('moment-timezone');
 const { TabPane } = Tabs;
 const columns = [
-    {
-        title: 'Location',
-        dataIndex: 'location'
-    },
-    {
-        title: 'pm25',
-        dataIndex: 'pm25'
-    },
-    {
-        title: 'pm10',
-        dataIndex: 'pm10'
-    },
-    {
-        title: 'Time',
-        dataIndex: 'time'
-    }
+    { title: 'Location', dataIndex: 'location'}, 
+    { title: 'pm25', dataIndex: 'pm25'},
+    { title: 'pm10', dataIndex: 'pm10'},
+    { title: 'Time', dataIndex: 'time'}
 ]
 
 class API extends React.Component{
@@ -40,10 +28,6 @@ class API extends React.Component{
         return t;
     }
 
-    handleDownload = (e) => {
-        
-    }
-
     componentDidMount() {
         axios.get('http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/list')
         .then(response => {
@@ -59,14 +43,33 @@ class API extends React.Component{
             })
         })
     }
-
+    
     render() {
         return(
-            <Tabs defaultActiveKey="1">
+            <Tabs defaultActiveKey="0">
+
+                <TabPane tab="API" key="0">
+                    <h1>미세먼지 데이터 API</h1>
+                    <div style={{backgroundColor:'#f8f9fa', margin: '0 0 8px', padding: '12px'}} >
+                        <a href='http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/get_data?from=1559307591528&to=1559308187629&count=128'> 
+                        http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/get_data?from=1559307591528&to=1559308187629&count=128
+                        </a>
+                    </div>
+                    <h1> Transaction 데이터 API </h1>
+                    <div style={{backgroundColor:'#f8f9fa', margin: '0 0 8px', padding: '12px'}} >
+                        <a href='http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/get_transaction?from=1559307591528&to=1559308187629&count=128'> 
+                        http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/get_transaction?from=1559307591528&to=1559308187629&count=128
+                        </a>
+                    </div>
+
+                </TabPane>
 
                 <TabPane tab="Data" key="1">
                     <div> 
-                        <Button type='primary' style={{margin: '0 0 10px 0'}}> <Icon type='download' /> Download as csv </Button>
+                        <Button type='primary' style={{margin: '0 0 10px 0'}} 
+                            href='http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/export_data.csv?count=3000' download> 
+                            <Icon type='download' /> Download as csv 
+                        </Button>
                         <Table columns={columns} dataSource={this.state.dataSource} /> 
                     </div>
                 </TabPane>
