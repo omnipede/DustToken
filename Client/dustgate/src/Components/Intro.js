@@ -34,6 +34,7 @@ class Intro extends React.Component{
                     <div style={{backgroundColor: '#555555', margin: 'auto', height: '2px', width: '70px', boxSizing: 'border-box' }}> </div>
                     <div style={{color: '#555555', fontSize: 13, textAlign: 'center', margin: '10px 0px 30px'}}>IoT based Ethereum ERC20 Token</div>
                 </div>
+                {/*
                 <div style={{margin: '50px 0 0 0'}}>
                     <h2>Getting started</h2>
                 <Collapse>
@@ -47,6 +48,7 @@ class Intro extends React.Component{
                     </Panel>
                 </Collapse>
                 </div>
+            */}
             </div>
         );
     }

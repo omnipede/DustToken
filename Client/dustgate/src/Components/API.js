@@ -1,5 +1,5 @@
 import React from 'react';
-import {Table, Tabs} from 'antd';
+import {Table, Tabs, Button, Icon} from 'antd';
 import {Chart} from 'react-google-charts';
 import axios from 'axios';
 const moment = require('moment-timezone');
@@ -40,6 +40,10 @@ class API extends React.Component{
         return t;
     }
 
+    handleDownload = (e) => {
+        
+    }
+
     componentDidMount() {
         axios.get('http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/list')
         .then(response => {
@@ -59,12 +63,14 @@ class API extends React.Component{
     render() {
         return(
             <Tabs defaultActiveKey="1">
+
                 <TabPane tab="Data" key="1">
                     <div> 
-                        <h1> 최근 {this.state.dataCount} 개의 데이터입니다.</h1> 
-                        <Table columns={columns} dataSource={this.state.dataSource} pagination={{position: 'both'}}/> 
+                        <Button type='primary' style={{margin: '0 0 10px 0'}}> <Icon type='download' /> Download as csv </Button>
+                        <Table columns={columns} dataSource={this.state.dataSource} /> 
                     </div>
                 </TabPane>
+
                 <TabPane tab="Chart" key="2">
                     <Chart
                         height={500}
@@ -79,6 +85,7 @@ class API extends React.Component{
                         }}
                     />
                 </TabPane>
+
             </Tabs>
         )
     }
