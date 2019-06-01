@@ -4,6 +4,7 @@ const connection = require('./connection.js');
 const Web3 = require ('web3');
 const Tx = require('ethereumjs-tx');
 const express = require('express');
+const csv = require('csv-express');
 const cors = require('cors');
 const app = express();
 
@@ -90,8 +91,38 @@ app.get('/api/list', async(req, res) => {
 					'time': entry['3'].toString()
 				})
 			}) )
-			console.log(data);
 			res.send(data);
+		}
+	)
+});
+
+app.get('/api/export_data.csv', async(req, res) => {
+	let r = {
+		count: req.query.count || 128
+	}
+	if (r.count > 3000) {
+		r.count = 3000;
+	}
+	let query = connection.query(
+		`select * from back order by time DESC limit ${r.count}`, 
+		async function(err, rows, cols) {
+			if(err) {
+				console.log(err);
+			}
+			let data = await Promise.all( rows.map( async (item) => {
+				let tx = await web3.eth.getTransaction(item.hash);
+				let entry = web3.eth.abi.decodeParameters(
+					['string', 'uint256', 'uint256', 'uint256'], tx.input
+				);
+				return( {
+					'location': entry['0'],
+					'pm25': entry['1'].toString(),
+					'pm10': entry['2'].toString(),
+					'time': entry['3'].toString()
+				})
+			}) )
+			console.log(data);
+			res.csv(data, true);
 		}
 	)
 });
