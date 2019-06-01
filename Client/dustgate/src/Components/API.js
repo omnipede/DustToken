@@ -41,7 +41,19 @@ class API extends React.Component{
     }
 
     handleDownload = (e) => {
-        
+        axios.get('http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/export_data.csv', {
+            params: {
+                count: 3000
+            }
+        })
+        .then(response => {
+            console.log('Hello world')
+            const link = document.createElement('a');
+            link.href = `export_data.csv`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        })
     }
 
     componentDidMount() {
@@ -66,7 +78,9 @@ class API extends React.Component{
 
                 <TabPane tab="Data" key="1">
                     <div> 
-                        <Button type='primary' style={{margin: '0 0 10px 0'}}> <Icon type='download' /> Download as csv </Button>
+                        <Button type='primary' style={{margin: '0 0 10px 0'}} href='http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/export_data.csv?count=3000' download> 
+                            <Icon type='download' /> Download as csv 
+                        </Button>
                         <Table columns={columns} dataSource={this.state.dataSource} /> 
                     </div>
                 </TabPane>
