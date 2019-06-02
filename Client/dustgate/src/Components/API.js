@@ -65,12 +65,11 @@ class API extends React.Component{
 
                 <TabPane tab="Data" key="1">
                     <div>
-                        <div style={{ float: 'right' }}>
-                            <Button type='primary' style={{ margin: '0 0 20px 0' }}
-                                href='http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/export_data.csv?count=3000' download>
-                                <Icon type='download' /> Download as csv
+                        
+                        <Button type='primary' style={{ margin: '0 0 20px 0' }}
+                            href='http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/export_data.csv?count=3000' download>
+                            <Icon type='download' /> Download as csv
                         </Button>
-                        </div>
                         <Table columns={columns} dataSource={this.state.dataSource} />
                     </div>
                 </TabPane>

@@ -69,10 +69,15 @@ class Transactions extends React.Component{
         let entry = web3.eth.abi.decodeParameters(
             ['string', 'uint256', 'uint256', 'uint256'], tx.input
         );
+        delete tx.input;
+        delete tx.r;
+        delete tx.s;
+        delete tx.v;
         tx.location = entry['0'];
         tx.pm25 = entry['1'].toString();
         tx.pm10 = entry['2'].toString();
         tx.time = entry['3'].toString();
+        tx.time = moment(new Date(Number(tx.time))).tz('Asia/Seoul').format('YYYY-MM-DD HH:mm:ss');
         this.setState({
             decodedTx: JSON.stringify(tx, null, "\t")
         })
@@ -80,16 +85,19 @@ class Transactions extends React.Component{
     render() {
         return(
             <div>
-                <h1 style={{margin: '0 0 30px 0'}}> DustToken의 모든 transaction 을 확인하실 수 있습니다. </h1>
-                <Table columns={columns} dataSource={this.state.dataSource} pagination={false} />
                 <Row>
-                    <Col span={12}></Col>
-                    <Col span={12}><Pagination defaultCurrent={1} total={this.state.dataCount} onChange={this.pageChange} style={{ margin: '10px 0 0 0' }} /></Col>
+                    <Col span={12}>
+                    <h1 style={{ margin: '0 0 30px 0' }}> DustToken의 모든 transaction 을 확인하실 수 있습니다. </h1>
+                    <Table columns={columns} dataSource={this.state.dataSource} pagination={false} />
+                    <Pagination defaultCurrent={1} total={this.state.dataCount} onChange={this.pageChange} style={{ margin: '10px 0 0 0' }} />
+                    </Col>
+                    <Col span={12}>
+                    <Card title="Dust Token blockchain transaction decoder" style={{margin: '30px'}}>
+                        <Search placeholder="input search text" onSearch={value => this.decode(value)} enterButton style={{margin: '30px 0'}}/>
+                        <TextArea value={this.state.decodedTx} autosize={true} readOnly={true} />
+                    </Card>
+                    </Col>
                 </Row>
-                <Card title="Dust Token blockchain transaction decoder">
-                    <Search placeholder="input search text" onSearch={value => this.decode(value)} enterButton />
-                    <TextArea value={this.state.decodedTx} autosize={true} readOnly={true} />
-                </Card>
             </div>
             
         )

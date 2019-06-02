@@ -44,7 +44,7 @@ class Menubar extends React.Component {
                    </Menu.Item>
                    <Menu.Item key="API">
                        <Icon type="bar-chart" />
-                       <span> API </span>
+                       <span> API / Data </span>
                    </Menu.Item>
                    <Menu.Item key="Block chain">
                        <Icon type="desktop" />
