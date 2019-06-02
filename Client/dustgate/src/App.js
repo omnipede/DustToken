@@ -9,7 +9,7 @@ import SigninPage from './Components/Signup';
 import Intro from './Components/Intro';
 import Device from './Components/Device';
 import API from './Components/API';
-import Template from './Components/Template';
+import Transactions from './Components/Transactions';
 
 import "antd/dist/antd.css";
 import './App.css';
@@ -80,7 +80,7 @@ class App extends React.Component {
       case "API": 
       return <API text="API" />
       case "Block chain": 
-      return <Template text="Block chain" />
+      return <Transactions text="Block chain" />
       default: ;
     }
   }
