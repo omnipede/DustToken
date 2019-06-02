@@ -1,10 +1,10 @@
 import React from 'react';
-import { Carousel, Collapse, Row, Col } from 'antd';
+import { Carousel, Row, Col } from 'antd';
 import "antd/dist/antd.css";
 import img_dust from '../intro_dust.jpg';
 import img_token from '../intro_token.jpg';
 import img_blockchain from '../img_blockchain.jpg';
-const Panel = Collapse.Panel;
+
 class Intro extends React.Component{
     render() {
         return(
