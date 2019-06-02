@@ -43,7 +43,7 @@ class API extends React.Component{
             })
         })
     }
-    
+
     render() {
         return(
             <Tabs defaultActiveKey="0">
@@ -61,7 +61,6 @@ class API extends React.Component{
                         http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/get_transaction?from=1559307591528&to=1559308187629&count=128
                         </a>
                     </div>
-
                 </TabPane>
 
                 <TabPane tab="Data" key="1">

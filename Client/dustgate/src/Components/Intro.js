@@ -12,19 +12,19 @@ class Intro extends React.Component{
                 <Carousel>
                     <div>
                         <Row>
-                            <Col span={10}> <img src={img_dust} alt='logo' style={{width: '100%', height: '100%'}}/></Col>
+                            <Col span={10}> <img src={img_dust} alt='logo' style={{width: '100%', height: '360px'}}/></Col>
                             <Col span={14} style={{color: 'white', fontSize: 36, textAlign: 'center'}}> 미세먼지를 측정해서 암호화폐를 얻으세요 </Col>
                         </Row>    
                     </div>
                     <div>
                         <Row>
-                            <Col span={10}> <img src={img_token} alt='logo' style={{width: '100%', height: '100%'}}/></Col>
+                            <Col span={10}> <img src={img_token} alt='logo' style={{width: '100%', height: '360px'}}/></Col>
                             <Col span={14} style={{color: 'white', fontSize: 36, textAlign: 'center'}}> 국내유일 IoT 기반 암호화폐 </Col>
                         </Row>
                     </div>
                     <div>
                         <Row>
-                            <Col span={10}> <img src={img_blockchain} alt='logo' style={{width: '100%', height: '100%'}}/></Col>
+                            <Col span={10}> <img src={img_blockchain} alt='logo' style={{width: '100%', height: '360px'}}/></Col>
                             <Col span={14} style={{color: 'white', fontSize: 36, textAlign: 'center'}}> 국내유일 IoT 기반 암호화폐 </Col>
                         </Row>
                     </div>
