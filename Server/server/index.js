@@ -8,6 +8,8 @@ const csv = require('csv-express');
 const cors = require('cors');
 const app = express();
 
+/* timestamp library. */
+const moment = require('moment-timezone');
 /* CORS header setup. */
 app.use(cors());
 /* DB setup. */
@@ -95,6 +97,72 @@ app.get('/api/list', async(req, res) => {
 		}
 	)
 });
+
+app.get('/api/get_data', async(req, res) => {
+	let r = {
+		'count': req.query.count || 128,
+		'location': req.query['location'] || '*',
+		'from': req.query.from || '0',
+		'to': req.query.to || '2000000000000'
+	}
+	r.from = moment(new Date(Number(r.from))).format('YYYY-MM-DD HH:mm:ss')
+	r.to = moment(new Date(Number(r.to))).format('YYYY-MM-DD HH:mm:ss')
+	
+	let query = connection.query(
+		`select * from back 
+		where time between '${r.from}' and '${r.to}' 
+		order by time DESC limit ${r.count}`, 
+		async function(err, rows, cols) {
+			if(err) {
+				console.log(err);
+			}
+			let data = await Promise.all( rows.map( async (item) => {
+				let tx = await web3.eth.getTransaction(item.hash);
+				let entry = web3.eth.abi.decodeParameters(
+					['string', 'uint256', 'uint256', 'uint256'], tx.input
+				);
+				return( {
+					'location': entry['0'],
+					'pm25': entry['1'].toString(),
+					'pm10': entry['2'].toString(),
+					'time': entry['3'].toString()
+				})
+			}) )
+			res.send(data);
+		}
+	)
+});
+
+app.get('/api/get_transaction', async(req, res) => {
+	let r = {
+		'count': req.query.count || 128,
+		'location': req.query['location'] || '*',
+		'from': req.query.from || '0',
+		'to': req.query.to || '2000000000000'
+	}
+	r.from = moment(new Date(Number(r.from))).format('YYYY-MM-DD HH:mm:ss')
+	r.to = moment(new Date(Number(r.to))).format('YYYY-MM-DD HH:mm:ss')
+	
+	let query = connection.query(
+		`select * from back 
+		where time between '${r.from}' and '${r.to}' 
+		order by time DESC limit ${r.count}`, 
+		async function(err, rows, cols) {
+			if(err) {
+				console.log(err);
+			}
+			let data = rows.map( (item) => {
+				return({
+					'transactionHash': item.hash,
+					'time': item.time
+				})
+			})
+			res.send(data);
+		}
+	)
+});
+
+
 
 app.get('/api/export_data.csv', async(req, res) => {
 	let r = {
