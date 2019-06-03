@@ -1,7 +1,11 @@
+
+#include <SSD1306.h>
+#include <SSD1306Spi.h>
+#include <SSD1306Wire.h>
+
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
-//#include "private.h"
-#include "phone.h"
+#include "private.h"
 const char* ssid = STASSID;
 const char* password = STAPSK;
 const char* aws_host = AWS_HOST;
@@ -9,9 +13,22 @@ const uint16_t aws_port = AWS_PORT;
 const uint16_t device_id = DEVICE_ID;
 
 ESP8266WiFiMulti WiFiMulti;
+//----------------------------------------------------------------------------------------------
+#include <Wire.h>  // Only needed for Arduino 1.6.5 and earlier
+#include "SSD1306Wire.h" // legacy include: `#include "SSD1306.h"`
+#include "images.h"
 
-void setup() {
+SSD1306Wire  display(0x3c, D3, D5);
+
+#define DEMO_DURATION 3000
+typedef void (*Demo)(void);
+
+int demoMode = 0;
+int counter = 1;
+//-------------------------------------------------------------------------------------------------
+void setup() { 
   // put your setup code here, to run once:
+ 
   Serial.begin(9600);
 
   WiFi.mode(WIFI_STA);
@@ -22,27 +39,58 @@ void setup() {
     Serial.print(".");
     delay(500);
   }
+  
   Serial.println("");
   Serial.println("WiFi connected");
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
+ 
+  
+ // Serial.begin(115200);
 
+  // Initialising the UI will init the display too.
+  display.init();
+
+  display.flipScreenVertically();
+  display.setFont(ArialMT_Plain_10);
+ //---------------------------------------------------------------------
+  
   delay(500);
 }
-
-void loop() {
-  // put your main code here, to run repeatedly:
-
-  static int stat = 0;
+//--------------------------------------------------------------------------------------------
+static int stat = 0;
   static byte buf[10];
   static int i;
   int pm25, pm10;
+
+  
+void drawFontFaceDemo() {
+    // Font Demo1
+    // create more fonts at http://oleddisplay.squix.ch/
+    display.setTextAlignment(TEXT_ALIGN_LEFT);
+    display.setFont(ArialMT_Plain_16);
+    display.drawString(0, 0, "pm10\t\tpm25");
+     display.setFont(ArialMT_Plain_24);
+    display.drawString(0, 26, String(pm10)+"\t"+String(pm25));
+    Serial.println(String(pm10)+" "+String(pm25));
+}
+
+
+Demo demos[] = {drawFontFaceDemo};
+int demoLength = (sizeof(demos) / sizeof(Demo));
+long timeSinceLastModeSwitch = 0;
+
+void loop() {
+
+  //delay(10);
+//------------------------------------------------------------------------------------------  
+  // put your main code here, to run repeatedly:
+
   
   while ( Serial.available()) {
     char c = Serial.read();
     Serial.print("Stat=" + String(stat) + " c=");
     Serial.println(c, HEX);
-    int pm25, pm10;
     switch(stat) {
       case 0: if (c == 0xAA) stat = 1; break;
       case 1: if (c == 0xC0) stat = 2; i = 0; break;
@@ -66,13 +114,31 @@ void loop() {
                 }
                 else
                   Serial.println("Connection failed\n");
-                delay(3000);
+                // clear the display
+                display.clear();
+                // draw the current demo method
+                demos[demoMode]();
+              
+                display.setTextAlignment(TEXT_ALIGN_RIGHT);
+                display.drawString(10, 128, String(millis()));
+                // write the buffer to the display
+                display.display();
+              
+                if (millis() - timeSinceLastModeSwitch > DEMO_DURATION) {
+                  demoMode = (demoMode + 1)  % demoLength;
+                  timeSinceLastModeSwitch = millis();
+                }
+                Serial.println("pm10\t\tpm25\n"+String(pm10)+"\t"+String(pm25));
+                counter++;
+                delay(60000);
               }
               else {
                 Serial.print("Wrong END");
                 Serial.println(c, HEX);
               }
+             
               break;
     }
   }
+      
 }
