@@ -1,5 +1,5 @@
 import React from 'react';
-import {Table, Tabs, Button, Icon } from 'antd';
+import {Table, Tabs, Button, Icon, Modal } from 'antd';
 import {Chart} from 'react-google-charts';
 import axios from 'axios';
 const moment = require('moment-timezone');
@@ -15,7 +15,8 @@ const config = require( '../ethereum/config.json');
 class API extends React.Component{
     state = {
         dataCount: 0,
-        dataSource: []
+        dataSource: [],
+        visible: false
     }
 
     getChartData () {
@@ -50,36 +51,51 @@ class API extends React.Component{
         const web3 = new Web3(Web3.givenProvider)
         let dusttoken = undefined;
         if (typeof web3 !== undefined) {
-            web3.eth.requestAccounts().then(console.log);
             dusttoken = new web3.eth.Contract(config.abi, config.address);
         }
         return(
             <Tabs defaultActiveKey="0">
-
                 <TabPane tab="API" key="0">
+                    <Modal title="Your api key generated!"
+                        visible={this.state.visible}
+                        onOk = {(e)=>{this.setState({visible: false})}}
+                        onCancel = {(e)=>{this.setState({visible: false})}}>
+                        <b> 0x0111122333 </b>
+                    </Modal>
+                    <Button type="primary" style={{ margin: '0 0 20px 0' }}
+                        onClick = {async (e) =>{
+                            e.preventDefault();
+                            if (dusttoken !== undefined && web3 !== undefined) {
+                                let accounts = await web3.eth.requestAccounts()
+                                dusttoken.methods.transfer("0x0164214FF43A46c8ad6C399811576ABFaB68FA42", web3.utils.toHex(1e18))
+                                .send({from: accounts[0]}, (err, txHash) => {
+                                    if (!err){
+                                       this.setState({visible: true})
+                                    }
+                                })
+                            }
+                        }}> Get API Key</Button>
                     <h1>미세먼지 데이터 API</h1>
                     <div style={{backgroundColor:'#f8f9fa', margin: '0 0 8px', padding: '12px'}} >
-                        <a href='http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/get_data?from=1559307591528&to=1559308187629&count=128'> 
-                        http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/get_data?from=1559307591528&to=1559308187629&count=128
+                        <a href='http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/get_data?api_key=YOUR_API_KEY&from=1559307591528&to=1559308187629&count=128'> 
+                        http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/get_data?api_key=YOUR_API_KEY&from=1559307591528&to=1559308187629&count=128
                         </a>
                     </div>
                     <h1> Transaction 데이터 API </h1>
                     <div style={{backgroundColor:'#f8f9fa', margin: '0 0 8px', padding: '12px'}} >
-                        <a href='http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/get_transaction?from=1559307591528&to=1559308187629&count=128'> 
-                        http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/get_transaction?from=1559307591528&to=1559308187629&count=128
+                        <a href='http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/get_transaction?api_key=YOUR_API_KEY&from=1559307591528&to=1559308187629&count=128'> 
+                        http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/get_transaction?api_key=YOUR_API_KEY&from=1559307591528&to=1559308187629&count=128
                         </a>
                     </div>
                 </TabPane>
 
                 <TabPane tab="Data" key="1">
                     <div>
-                        
                         <Button type='primary' style={{ margin: '0 0 20px 0' }}
                             onClick = {async (e) => {
                                 e.preventDefault();
                                 if (dusttoken !== undefined && web3 !== undefined ){
                                     let accounts = await web3.eth.requestAccounts()
-                                    console.log(accounts[0]);
                                     dusttoken.methods.transfer("0x0164214FF43A46c8ad6C399811576ABFaB68FA42", web3.utils.toHex(1e18))
                                     .send({from: accounts[0]}, (err, txHash) => {
                                         if (!err){ 
@@ -104,7 +120,6 @@ class API extends React.Component{
                         <Table columns={columns} dataSource={this.state.dataSource} />
                     </div>
                 </TabPane>
-
                 <TabPane tab="Chart" key="2">
                     <Chart
                         height={500}
@@ -119,7 +134,6 @@ class API extends React.Component{
                         }}
                     />
                 </TabPane>
-
             </Tabs>
         )
     }
