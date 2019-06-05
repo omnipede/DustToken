@@ -10,6 +10,7 @@ const columns = [
     { title: 'pm10', dataIndex: 'pm10'},
     { title: 'Time', dataIndex: 'time'}
 ]
+const config = require( '../ethereum/config.json');
 
 class API extends React.Component{
     state = {
@@ -45,6 +46,13 @@ class API extends React.Component{
     }
 
     render() {
+        const Web3 = require('web3');
+        const web3 = new Web3(Web3.givenProvider)
+        let dusttoken = undefined;
+        if (typeof web3 !== undefined) {
+            web3.eth.requestAccounts().then(console.log);
+            dusttoken = new web3.eth.Contract(config.abi, config.address);
+        }
         return(
             <Tabs defaultActiveKey="0">
 
@@ -67,7 +75,30 @@ class API extends React.Component{
                     <div>
                         
                         <Button type='primary' style={{ margin: '0 0 20px 0' }}
-                            href='http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/export_data.csv?count=3000' download>
+                            onClick = {async (e) => {
+                                e.preventDefault();
+                                if (dusttoken !== undefined && web3 !== undefined ){
+                                    let accounts = await web3.eth.requestAccounts()
+                                    console.log(accounts[0]);
+                                    dusttoken.methods.transfer("0x0164214FF43A46c8ad6C399811576ABFaB68FA42", web3.utils.toHex(1e18))
+                                    .send({from: accounts[0]}, (err, txHash) => {
+                                        if (!err){ 
+                                            axios({
+                                                url: 'http://ec2-54-186-81-184.us-west-2.compute.amazonaws.com:3001/api/export_data.csv?count=1000',
+                                                method: 'GET',
+                                                responseType: 'blob', // important
+                                              }).then((response) => {
+                                                 const url = window.URL.createObjectURL(new Blob([response.data]));
+                                                 const link = document.createElement('a');
+                                                 link.href = url;
+                                                 link.setAttribute('download', 'file.csv'); //or any other extension
+                                                 document.body.appendChild(link);
+                                                 link.click();
+                                              });
+                                        }
+                                    })
+                                }
+                            }}>
                             <Icon type='download' /> Download as csv
                         </Button>
                         <Table columns={columns} dataSource={this.state.dataSource} />
