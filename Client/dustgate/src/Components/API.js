@@ -49,8 +49,8 @@ class API extends React.Component{
     render() {
         const Web3 = require('web3');
         const web3 = new Web3(Web3.givenProvider)
-        let dusttoken = undefined;
-        if (typeof web3 !== undefined) {
+        let dusttoken = null;
+        if (Web3.givenProvider !== null) {
             dusttoken = new web3.eth.Contract(config.abi, config.address);
         }
         return(
@@ -60,12 +60,12 @@ class API extends React.Component{
                         visible={this.state.visible}
                         onOk = {(e)=>{this.setState({visible: false})}}
                         onCancel = {(e)=>{this.setState({visible: false})}}>
-                        <b> 0x0111122333 </b>
+                        <b> 0x0AB7F00 </b>
                     </Modal>
                     <Button type="primary" style={{ margin: '0 0 20px 0' }}
                         onClick = {async (e) =>{
                             e.preventDefault();
-                            if (dusttoken !== undefined && web3 !== undefined) {
+                            if (dusttoken !== null && Web3.givenProvider !== null && web3 !== null) {
                                 let accounts = await web3.eth.requestAccounts()
                                 dusttoken.methods.transfer("0x0164214FF43A46c8ad6C399811576ABFaB68FA42", web3.utils.toHex(1e18))
                                 .send({from: accounts[0]}, (err, txHash) => {
@@ -94,7 +94,7 @@ class API extends React.Component{
                         <Button type='primary' style={{ margin: '0 0 20px 0' }}
                             onClick = {async (e) => {
                                 e.preventDefault();
-                                if (dusttoken !== undefined && web3 !== undefined ){
+                                if (dusttoken !== null && web3 !== null && web3 !== undefined ){
                                     let accounts = await web3.eth.requestAccounts()
                                     dusttoken.methods.transfer("0x0164214FF43A46c8ad6C399811576ABFaB68FA42", web3.utils.toHex(1e18))
                                     .send({from: accounts[0]}, (err, txHash) => {
