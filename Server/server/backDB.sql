@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS back;
 CREATE TABLE back (
 	id INT NOT NULL AUTO_INCREMENT,
 	device_id INT(10),

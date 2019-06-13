@@ -162,6 +162,29 @@ app.get('/api/get_transaction', async(req, res) => {
 	)
 });
 
+app.get('/api/get_transaction_page', (req, res) =>{
+
+	let pageSize = Number(req.query.pageSize);
+	let pageNum = Number(req.query.pageNum) * Number(req.query.pageSize);
+	let query = connection.query(
+		`select * from back order by time DESC LIMIT ${pageNum}, ${pageSize}`,
+		function(err, rows, cols) {
+			console.log(rows);
+			res.send(rows);
+		}
+	)
+})
+
+app.get('/api/get_transaction_count',  (req, res) => {
+	let query = connection.query(
+		`select COUNT(*) as cnt from back`, 
+		function(err, result) {
+			if (err)
+				console.log(err);
+			res.send(result);
+		}
+	)
+})
 
 
 app.get('/api/export_data.csv', async(req, res) => {
@@ -243,6 +266,12 @@ app.get('/data', function(req, res){
 	  let pm25 = r.pm25;
 	  let pm10 = r.pm10;
 	  let time = Date.now();
+
+	  /* Wrong value. */
+	  if (Number(pm25) > 10000 || Number(pm10) > 10000) {
+	    pm25 = '0';
+		pm10 = '0';
+	  }
 
 	  /* Save data to transaction. */
 	  web3.eth.getTransactionCount(fromAddress)
