@@ -7,11 +7,11 @@ Ethereum 기반 플랫폼 입니다.
 </p>  
 
 ## Directory
-- **Client**    : reactjs, css 코드 저장
-- **Ethereum**  : solidity 코드 저장
-- **Resources** : 로고, 이미지 저장
-- **Sensor**    : arduino firmware 코드 저장
-- **Server**    : nodejs 코드 저장
+- ```Client```    : reactjs로 구현한 웹페이지 코드 저장
+- ```Ethereum```  : solidity로 구현한 암호화폐 코드 저장
+- ```Resources``` : 로고, 이미지등 리소스 저장
+- ```Sensor```    : arduino firmware 센서 코드 저장
+- ```Server```    : nodejs로 구현한 서버 코드 저장
 <br>  
 
 ## 구성원
